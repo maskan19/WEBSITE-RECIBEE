@@ -1,0 +1,34 @@
+package product.lprod.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import product.lprod.dao.ILprodDao;
+import product.lprod.dao.LprodDaoImpl;
+import vo.LprodVO;
+
+public class LprodServiceImpl implements ILpordService{
+	private ILprodDao dao;
+	private static LprodServiceImpl service;
+	
+	private LprodServiceImpl() {
+		dao = LprodDaoImpl.getInstance();
+	}
+	
+	public static LprodServiceImpl getInstance() {
+		if(service == null) service = new LprodServiceImpl();
+		return service;
+	}
+	@Override
+	public List<LprodVO> listLprod() {
+		List<LprodVO> list = null;
+		try {
+			list = dao.listLprod();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+}

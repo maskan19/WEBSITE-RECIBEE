@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="mypage">
+	<typeAlias alias="memVo" type="vo.MemberVO" />
+	<select id="getMyInfo" parameterClass="string" resultClass="memVo">
+		select * from member where mem_pass = #data#
+	</select>
+	
+	<update id="updateMyInfo" parameterClass="memVo">
+		update member set mem_pass = #mem_pass#,
+						  mem_ali = #mem_ali#,
+						  mem_tel = #mem_tel#
+					 where = #mem_id#
+	</update>
+</sqlMap>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+	
+<sqlMap namespace="dishreply">
+	<typeAlias alias="dishreplyVo" type="vo.DishreplyVO" />
+	
+	<insert id="insertDishreply" parameterClass="dishreplyVo">
+		insert into dish_reply (drpl_code, drpl_cont, drpl_date, dish_code, mem_id)
+		values(dish_reply_seq.nextval, #drpl_cont#, sysdate, #dish_code#, #mem_id#)
+		<selectKey keyProperty="drpl_code" resultClass="int">
+			select dish_reply_seq.currval from dual
+		</selectKey>
+	</insert>
+
+	<select id="SelectReplyByDishCode" parameterClass="int" resultClass="dishreplyVo">
+		select * from dish_reply
+		where dish_code=#dish_code#
+		order by DRPL_DATE desc
+	</select>
+	
+	<delete id="DeleteReply" parameterClass="dishreplyVo">
+		delete dish_reply
+		where DRPL_CODE=#drpl_code#
+		and mem_id=#mem_id#
+	</delete>
+	
+	<select id="ReplyCount" parameterClass="int" resultClass="int">
+		select count(*)
+		from dish_reply
+		where dish_code = #dish_code#
+	</select>
+</sqlMap>

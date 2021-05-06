@@ -1,0 +1,11 @@
+package dish.service;
+
+import java.util.List;
+import java.util.Map;
+import vo.DishVO;
+
+public interface IDishService {
+	public int Count(Map<String, String> map);
+	
+	public List<DishVO> SelectByPage(Map<String, String> map);
+}

@@ -1,0 +1,25 @@
+#/jsp/memberList.do=member.action.MemberListAction
+
+/jsp/Login.do=common.action.LoginPageAction
+/jsp/Index.do=common.action.IndexPageAction
+/jsp/CS.do=common.action.CSPageAction
+/jsp/Shop.do=common.action.ShopPageAction
+
+
+/jsp/JoinForm.do=member.action.JoinPageAction
+/jsp/Agreement.do=member.action.AgreementPageAction
+/jsp/InsertMember.do=member.action.MemberInsertAction
+/jsp/Session.do=member.action.GetSessionAction
+
+/jsp/ProdList.do=product.lprod.action.LprodListAction
+/jsp/ProdInsert.do=admin.action.ProdInsertAction
+
+#/---JYR: 이메일 찾기 및 비밀번호 찾기
+/jsp/FindEmail.do=member.action.FindEmailAction
+/jsp/FindEmailResult.do=member.action.FindEmailResultAction
+/jsp/FindPw.do=member.action.FindPwAction
+/jsp/FindPwResult.do=member.action.FindPwResultAction
+
+#/ ---------------- myPage용 uri
+/jsp/MyInfo.do=myPage.action.MyInfoAction
+/jsp/MyPage.do=myPage.action.MyPageAction

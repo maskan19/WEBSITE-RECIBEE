@@ -1,0 +1,42 @@
+package admin.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.LprodVO;
+import vo.ProdVO;
+import vo.Prod_AttVO;
+
+public class ProductInsertDaoImpl implements IProductInsertDao {
+	private SqlMapClient client;
+	private static ProductInsertDaoImpl dao;
+	
+	private ProductInsertDaoImpl() {
+		client = SqlMapUtil.getSqlMapClient();
+	}
+	
+	public static ProductInsertDaoImpl getInstance() {
+		if(dao == null) dao = new ProductInsertDaoImpl();
+		return dao;
+	}
+	@Override
+	public List<LprodVO> LprodList() throws SQLException {
+		
+		return client.queryForList("lprod.listLprod");
+	}
+
+	@Override
+	public int ProdInsert(ProdVO vo) throws SQLException {
+		return (int) client.insert("prod.ProdInsert", vo);
+	}
+
+	@Override
+	public void ProdAttInsert(Prod_AttVO vo) throws SQLException {
+		client.insert("prod.ProdAttInsert", vo);
+	}
+
+
+}

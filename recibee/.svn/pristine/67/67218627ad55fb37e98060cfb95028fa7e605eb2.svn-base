@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="mypage">
+	<typeAlias alias="memVo" type="vo.MemberVO" />
+	<select id="getMyInfo" parameterClass="memVo" resultClass="memVo">
+		select * from member where mem_id = #mem_id# and mem_pass = #mem_pass#
+	</select>
+	
+	<update id="updateMyInfo" parameterClass="memVo">
+		update member set mem_pass = #mem_pass#,
+						  mem_ali = #mem_ali#,
+						  mem_tel = #mem_tel#
+					 where mem_id = #mem_id#
+	</update>
+	
+	<update id="deleteMember" parameterClass="string">
+		update member set mem_dismember = 0
+					where mem_id = #data#
+	</update>
+	
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<typeAlias alias="post_attVo" type="vo.PostAttVO"/>
+	<select id="getMyRecipe" parameterClass="string" resultClass="postVo">
+		select * from post where mem_id = #data# order by post_date desc
+	</select>
+	
+	<select id="getPostAtt" parameterClass="int" resultClass="string">
+		select post_file from post_att where post_code = #data# and rownum=1
+	</select>
+	
+	<select id="getCountReply" parameterClass="int" resultClass="int">
+		select count(*) from postrpl where post_code = #data#
+	</select>
+</sqlMap>

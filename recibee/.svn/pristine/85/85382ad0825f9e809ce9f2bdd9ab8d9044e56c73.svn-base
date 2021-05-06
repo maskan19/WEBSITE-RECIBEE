@@ -1,0 +1,59 @@
+package common.action;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import common.service.CommonServiceImpl;
+import common.service.ICommonService;
+import vo.DishVO;
+import vo.PostAttVO;
+import vo.PostVO;
+import vo.PostrplVO;
+import vo.ProdVO;
+import web.IAction;
+
+public class IndexPageAction implements IAction {
+
+	@Override
+	public boolean isRedirect() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ICommonService service = CommonServiceImpl.getInstance();
+		List<DishVO> dish = service.getDishlist();
+		List<ProdVO> prod = service.getProdlist();
+		List<PostVO> postlist = new ArrayList<PostVO>();
+		
+		for (int rownum = 1; rownum <= 3; rownum++) {
+			PostVO post = service.getRecentPost(rownum);
+			List<PostAttVO> post_atts = service.getPostAtt(rownum);
+			List<PostrplVO> post_rpls = service.getPostRpl(rownum);
+			
+			if (post_atts != null && post_atts.size() != 0) {
+				post.setPost_atts(post_atts);
+			}
+			if (post_rpls != null && post_rpls.size() != 0) {
+				post.setPost_rpls(post_rpls);
+			}
+			postlist.add(post);
+		}
+		
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		request.setAttribute("Dishlist", dish);
+		request.setAttribute("Prodlist", prod);
+		request.setAttribute("Postlist", postlist);
+
+		return "/index.jsp";
+	}
+
+}

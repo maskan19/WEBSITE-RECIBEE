@@ -1,0 +1,105 @@
+package post.service;
+
+import java.sql.SQLException;
+
+import myPage.dao.IMyPageDao;
+import myPage.dao.MyPageDaoImpl;
+import post.dao.IPostDao;
+import post.dao.PostDaoImpl;
+import vo.PostVO;
+import vo.MemberVO;
+
+public class PostServiceImpl implements IPostService {
+	
+	private static PostServiceImpl service;
+	
+	private IPostDao dao;
+	
+	private PostServiceImpl() {
+		dao = PostDaoImpl.getInstance();
+	}
+	
+	public static PostServiceImpl getInstance() {
+		if(service ==null) service = new PostServiceImpl();
+		return service;
+	}
+
+//	@Override
+//	public MemberVO getMyInfo(String memId) {
+//		MemberVO vo = new MemberVO();
+//		
+//		try {
+//			vo = dao.getMyInfo(memId);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return vo;
+//	}
+
+	
+	
+	
+	
+	
+//	@Override
+//	public int updateMyInfo(MemberVO vo) {
+//		int cnt = 0;
+//		
+//		try {
+//			cnt = dao.updateMyInfo(vo);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return cnt;
+//	}
+
+	
+	
+	
+//	@Override
+//	public MemberVO getMyInfo(MemberVO vo) {
+//		MemberVO memVo = new MemberVO();
+//		
+//		try {
+//			memVo = dao.getMyInfo(vo);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return memVo;
+//	}
+
+	
+	@Override
+	public PostVO getPost(PostVO vo) {
+		PostVO postVo = new PostVO();
+		
+		try {
+			postVo=dao.getPost(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return postVo;
+	}
+
+	
+	@Override
+	public int updatePost(PostVO vo) {
+		int cnt = 0;
+		
+		try {
+			dao.updatePost(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+}

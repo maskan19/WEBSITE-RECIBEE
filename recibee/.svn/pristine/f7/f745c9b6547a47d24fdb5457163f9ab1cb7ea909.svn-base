@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pay">
+	<typeAlias alias="PayVo" type="vo.PayVO" />
+	
+	<insert id="insertPay" parameterClass="PayVo">
+		insert into pay(pay_code, pg, pay_method, amount ,pay_date)
+		values(pay_seq.nextVal, #pg#, #pay_method#, #amount#, sysdate)
+		<selectKey keyProperty="pay_code" resultClass="int" type="post">
+			select pay_seq.currval from dual
+		</selectKey>
+	</insert>
+</sqlMap>
+

@@ -1,0 +1,42 @@
+package post.faq.action;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import post.faq.service.IPostService;
+import post.faq.service.PostServiceImpl;
+import vo.PostVO;
+import web.IAction;
+
+public class InsertPostAction implements IAction {
+
+	@Override
+	public boolean isRedirect() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
+		   int post_code  = Integer.parseInt(request.getParameter("post_code"));
+		String post_title = request.getParameter("post_title");
+		String post_cont  = request.getParameter("post_cont");
+		
+		PostVO postVo = new PostVO();
+		postVo.setPost_code(post_code);
+		postVo.setPost_title(post_title);
+		postVo.setPost_cont(post_cont);
+		
+		IPostService service = PostServiceImpl.getInstance();
+		service.insertPost(postVo); //db에 insert 
+		
+		return "/jsp/PostFAQ.do";
+	}
+
+}

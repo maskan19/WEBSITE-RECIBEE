@@ -1,0 +1,233 @@
+<%@page import="vo.MethodsVO"%>
+<%@page import="vo.LprodVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/shop-grid.js"></script>
+<script type="text/javascript">
+$(function() {
+	$(".addIngre").on("click", function(){
+		$(".IngredientList").empty();
+		var num = $("#ingrenum").val();
+		code = "<br>";
+		for(i=1; i<=num; i++){
+			code += "<input class='Ingredient' type='text' name='ingredient_name"+i+"'>";
+			if(i%3==0) code+="<br>"
+		}
+		$(".IngredientList").append(code);
+	})
+	
+	number = 1;
+	$("#manual_input").on("click", ".btn-insert" ,function(){
+		number++;
+		code = '<div class="form-group manual_'+number+'>';
+		code += '<p>';
+		code += '	메뉴얼'+number+'<span></span>';
+		code += '	<button type="button" class="btn-delete">메뉴얼 삭제</button>';
+		code += '</p>';
+		code += '<input type="text" name="rcp_manual" class="rcp_manual"/>';
+		code += '<input type="file" name="rcp_att" class="rcp_att"/>';
+		code +- '</div><br>';
+		$(".form-group:last").after(code);
+		console.log(number);
+		
+		$(document).on("click", ".btn-delete",function(){
+			$(this).parents(".form-group").remove();
+		})
+		
+	})
+	
+	$("input[type=submit]").on("click", function(e){
+		var dish_name = $(".form-group input[name=dish_name]").val();
+		console.log(dish_name);
+		//alert("dkdk");
+		if(dish_name == ""){
+			alert("레시피명이 누락되었습니다.");
+			return false;
+		}
+			//var num = $("#ingrenum").val();
+			//ingre = "";
+			//for(var i=0; i<num; i++){
+			//	ingre += $(".Ingredient").val().trim();
+			//}
+			//alert(ingre);
+	})
+	
+});
+</script>
+<style type="text/css">
+	#file__input .btn__detail{
+		padding-top: 5px;
+		padding-bottom: 5px;
+		margin-left: 15px;
+	}
+	.btn__delete{
+		padding-top: 5px;
+		padding-bottom: 5px;
+		margin-left: 15px;
+	}
+	.registerForm{
+		margin : auto;
+		width : 70%;
+	}
+	.goLogin{
+		margin : auto;
+		margin-top: 20%;
+		margin-bottom: 20%;
+	}
+	.Ingredient{
+		width : 200px;
+		margin : 1px 1px;
+	}
+</style>
+</head>
+
+<body>
+<%
+	int count = (Integer) request.getAttribute("count");
+	List<MethodsVO> methodlist = (List<MethodsVO>) request.getAttribute("methodlist");
+%>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+	<!-- Hero Section Begin -->
+	<section class="hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="hero__search">
+						<div class="div__top__layer">
+							<div class="hero__search__form">
+								<form action="#">
+									<div class="hero__search__categories">
+										All Categories <span class="arrow_carrot-down"></span>
+										<ul class="header__menu__dropdown">
+											<li>Recipe</li>
+											<li>Board1</li>
+											<li>Shop</li>
+										</ul>
+									</div>
+									<input type="text" placeholder="What do yo u need?">
+									<button type="submit" class="site-btn">SEARCH</button>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Hero Section End -->
+	
+	<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>레시피 등록 페이지</h2>
+                        <div class="breadcrumb__option">
+                           	<span class="glyphicon glyphicon-home"></span>
+                            <a href="<%=request.getContextPath()%>/jsp/RecipeMain.do">
+                            <img alt="" src="pic/icon_house.png" width="20px" height="20px">RecipeHome
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+	
+	<!-- 레시피 등록 페이지 Start -->
+	<div class="container">
+            <div class="row">
+	<%
+		if(count==0){
+	%>	
+		<div class="goLogin">
+			<h3>로그인을 해주세요.</h3>
+			<a href="<%=request.getContextPath()%>/jsp/Login.do">로그인 사이트로 가기</a>
+		</div>
+	<% 
+		}else{
+	%>
+		<form class="registerForm" action="<%=request.getContextPath()%>/InsertRecipe.do" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+	      		<label>레시피명</label>
+	      		<input type="text" class="form-control" id="dish_name" name="dish_name">
+	    	</div>
+			
+			<div class="form-group">
+	      		<label>조리방법<span>*</span></label>
+	      		<br>
+	      		<select id="mth_name" name="mth_name">
+				<% for(int i=0; i<6; i++){
+					MethodsVO vo = methodlist.get(i);
+				%>
+					<option class="form-control" value=<%=vo.getMth_code()%>><%=vo.getMth_name() %></option>
+				<%	
+					}
+				%>
+				</select>
+				<br><br>
+	    	</div>
+			
+			<div class="form-group">
+	      		<label>레시피사진<span>*</span></label>
+	      		<input type="file" class="form-control" id="dish_photo" name="dish_photo">
+	    	</div>
+	    	<br>
+	    	<hr>
+	    	<br>
+	    	<div class="form-group">
+	      		<label>재료<span>*</span></label><br>
+				재료개수<input id="ingrenum" type="text" value="1" width="50px"/>
+				<input class="addIngre" type="button" value="확인"/>
+				<div class="IngredientList">
+				</div>
+	    	</div>
+	    	<br>
+	    	<hr>
+	    	<br>
+			<h6>메뉴얼</h6>
+			<div class="form-group manual_1" id="manual_input">
+				<p>
+					메뉴얼1<span>*</span>
+					<button type="button" class="btn-insert">메뉴얼 추가</button>
+				</p>
+				<input type="text" name="rcp_manual" class="rcp_manual"/>
+				<input type="file" name="rcp_att" class="rcp_att"/>
+			</div><br>
+			<input type="submit" value="레시피 등록">
+			<input type="reset" value="레시피 초기화">
+		</form>
+	<% 
+		}
+	%>
+		</div>
+	</div>
+	<!-- 레시피 등록 페이지 End -->
+	
+	
+	<!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+
+</body>
+
+</html>

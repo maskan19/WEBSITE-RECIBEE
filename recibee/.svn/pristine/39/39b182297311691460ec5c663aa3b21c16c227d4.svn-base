@@ -1,0 +1,14 @@
+package post.faq.service;
+
+import java.util.List;
+
+import vo.PostVO;
+
+public interface IPostService {
+	
+	// FAQ전체 내용 출력
+	public List<PostVO> getListFaqPost();;
+
+	//
+	public int updatePost(PostVO vo);
+}

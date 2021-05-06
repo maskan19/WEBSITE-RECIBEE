@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="addr">
+	<typeAlias alias="AddrVo" type="vo.AddrVO" />
+	
+	<select id="lastAddr" parameterClass="String" resultClass="AddrVo">
+		select * from addr where mem_id = #mem_id# and addr_code = (select max(addr_code) from addr where mem_id=#mem_id#)
+	</select>
+	<insert id="insertAddr" parameterClass="AddrVo">
+		INSERT INTO addr(addr_code, mem_id, addr_doro, addr_acc, addr_rec, addr_zip, addr_memo) 
+		VALUES(addr_seq.nextVal, #mem_id#, #addr_doro#, #addr_acc#, #addr_rec#, #addr_zip#, #addr_memo#)
+		<selectKey keyProperty="addr_code" resultClass="int"
+			type="post">
+			select addr_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<select id="listAddr" parameterClass="String" resultClass="AddrVo">
+		select addr_doro, max(addr_code) addr_code, addr_zip
+		from addr
+		where mem_id = 'admin' and addr_status is null
+		group by addr_doro, addr_zip
+		order by addr_doro
+	</select>
+	
+	<update id="deleteAddr" parameterClass="AddrVo">
+		update addr set addr_status = 1 where mem_id = #mem_id# and addr_doro = #addr_doro#
+	</update>
+	
+</sqlMap>
+

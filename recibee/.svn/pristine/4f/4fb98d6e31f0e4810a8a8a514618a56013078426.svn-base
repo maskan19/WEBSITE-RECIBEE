@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="member">
+	<typeAlias alias="memVo" type="vo.MemberVO" />
+	<typeAlias alias="dishVo" type="vo.DishVO" />
+	<typeAlias alias="cartVo" type="vo.CartVO" />
+	<insert id="insertMember" parameterClass="memVo">
+		INSERT INTO member (
+		mem_id, mem_pass, joindate,
+		mem_ali, mem_name, mem_grade, mem_bir,
+		mem_gen, mem_mile, mem_dismember, mem_totalrpt, mem_tel ) VALUES (
+		#mem_id#, #mem_pass#, sysdate, #mem_ali#, #mem_name#, 0, #mem_bir#,
+		#mem_gen#, 3000, 1, 0, #mem_tel# )
+	</insert>
+
+	<delete id="deleteMember" parameterClass="String">
+		Delete From member
+		Where mem_id = #mem_id#
+	</delete>
+
+	<select id="selectMember" parameterClass="String"
+		resultClass="Integer">
+		select count(*) from member where mem_id = #mem_id#
+	</select>
+
+	<select id="selectAlias" parameterClass="String"
+		resultClass="Integer">
+		select count(*) from member where mem_ali = #mem_ali#
+	</select>
+
+	<select id="getMemberInfo" parameterClass="Map"
+		resultClass="memVo">
+		select * from member where mem_id = #mem_id# and mem_pass
+		= #mem_pass# and mem_dismember=1
+	</select>
+
+	<select id="selectMembers" resultClass="memVo">
+		select * from member
+	</select>
+
+	<select id="getLikelist" parameterClass="String"
+		resultClass="dishVo">
+		select dish.* from dish join likelist on dish.dish_code =
+		likelist.dish_code where likelist.mem_id=#mem_id#
+	</select>
+
+	<select id="getCartlist" parameterClass="String" resultClass="int">
+		select count(*) from cart where mem_id = #mem_id# and pay_code is null
+	</select>
+
+	<update id="updateMember" parameterClass="Map">
+		Update member
+		Set
+		$field$ = #data#
+		where mem_id = #mem_id#
+	</update>
+
+	<select id="findemail" parameterClass="memVo"
+		resultClass="String">
+		select mem_id
+		from member
+		where mem_name=#mem_name#
+		and
+		mem_tel = #mem_tel#
+	</select>
+
+	<select id="findpw" parameterClass="string" resultClass="int">
+		select
+		count(mem_id)
+		from member
+		where mem_id=#mem_id#
+	</select>
+
+	<update id="updatepw" parameterClass="memVo">
+		update member
+		set
+		mem_pass=#mem_pass#
+		where mem_id=#mem_id#
+	</update>
+</sqlMap>
+	

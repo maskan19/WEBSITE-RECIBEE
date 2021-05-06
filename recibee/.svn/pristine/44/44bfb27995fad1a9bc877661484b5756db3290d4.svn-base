@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="dish">
+	<!-- <typeAlias alias="dishVo" type="vo.DishVO"/> -->
+	<typeAlias alias="recipeVo" type="vo.RecipeVO"/>
+	<typeAlias alias="ingredientVo" type="vo.IngredientVO"/>
+	
+	<select id="Count" parameterClass="map" resultClass="int">
+		select count(*)
+		from dish
+		where dish_del=0
+		and dish_name like '%'||#word#||'%'
+		and mth_code in (select mth_code 
+						from methods 
+						where mth_name like '%'||#mth_name#||'%')
+	</select>
+	
+	<select id="SelectByPage" parameterClass="map" resultClass="dishVo">
+		select A.* from (
+    		select rownum as rnum, B.*  from (
+         		select * from dish 
+        		  where dish_del=0
+        		  and dish_name like '%'||#word#||'%'
+             	  and mth_code in (select mth_code 
+									from methods 
+									where mth_name like '%'||#mth_name#||'%')
+             order by  dish_date desc) B
+     		<![CDATA[
+      			where rownum <= #end#) A 
+   				where A.rnum >=#start#
+  			]]>
+	</select>
+	
+	<select id="DishListBySelect" parameterClass="int" resultClass="dishVo">
+		select *
+		from dish
+		where DISH_CODE=#dish_code#
+	</select>
+	
+	<select id="IngredientBySelect" parameterClass="int" resultClass="ingredientVo">
+		select *
+		from ingredient
+		where dish_code=#dish_code#
+		order by ingredient_num
+	</select>
+	
+	<select id="ManualBySelect" parameterClass="int" resultClass="recipeVo">
+		select rcp_num, rcp_manual, rcp_att
+		from recipe
+		where dish_code = #dish_code#
+		order by rcp_num
+	</select>
+	
+	<update id="UpdateDishHit" parameterClass="int">
+		update dish
+		set dish_hit=dish_hit+1
+		where dish_code=#dish_code#
+	</update>
+	
+	<select id="SelectMemAli" parameterClass="string" resultClass="string">
+		select mem_ali
+		from member
+		where mem_id=#mem_id#
+	</select>
+	
+	<insert id="InsertLike" parameterClass="map">
+		insert into LIKELIST(mem_id, dish_code)
+		values (#mem_id#, #dish_code#)
+	</insert>
+	
+	<select id="SelectLike" parameterClass="map" resultClass="int">
+		select count(*)
+		from LIKELIST
+		where mem_id=#mem_id#
+		and dish_code=#dish_code#
+	</select>
+	
+	<delete id="DeleteLike" parameterClass="map">
+		delete LIKELIST
+		where mem_id=#mem_id#
+		and dish_code=#dish_code#
+	</delete>
+	
+	<select id="GetMethods" resultClass="methodsVo">
+		select * from methods order by MTH_CODE
+	</select>
+	
+	<insert id="InsertDish" parameterClass="dishVo">
+		insert into dish(dish_code, dish_name, dish_date, mth_code, dish_photo, mem_id)
+		values(dish_seq.nextval, #dish_name#, sysdate, #mth_code#, #dish_photo#, #mem_id#)
+		
+		<selectKey keyProperty="dish_code" resultClass="int">
+			select dish_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="InsertIngre" parameterClass="ingredientVo">
+		insert into ingredient(ingredient_code, dish_code, ingredient_num, ingredient_name)
+		values(ingred_seq.nextval, #dish_code#, #ingredient_num#, #ingredient_name#)
+		<selectKey keyProperty="ingredient_code" resultClass="int">
+			select ingred_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="InsertRecipe" parameterClass="recipeVo">
+		insert into recipe(dish_code, rcp_code, rcp_manual, rcp_att, rcp_num)
+		values(#dish_code#, recipe_seq.nextval, #rcp_manual#, #rcp_att#, #rcp_num#)
+		<selectKey keyProperty="rcp_code" resultClass="int">
+			select recipe_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<update id="DeleteRecipe" parameterClass="map">
+		update dish set dish_del = 1
+		where dish_code = #dish_code#
+		and mem_id=#mem_id#
+	</update>
+	
+	<update id="DeleteAdminRecipe" parameterClass="int">
+		update dish set dish_del = 1
+		where dish_code = #dish_code#
+	</update>
+	
+	<update id="UpdateDishTwo" parameterClass="dishVo">
+		update dish
+		set dish_photo = #dish_photo#, dish_name = #dish_name#
+		where dish_code = #dish_code#
+	</update>
+	
+	<update id="UpdateDishOne" parameterClass="dishVo">
+		update dish
+		set dish_name = #dish_name#
+		where dish_code = #dish_code#
+	</update>
+	
+	<select id="IngreNum" parameterClass="int" resultClass="int">
+		select max(ingredient_num)
+		from ingredient
+		where dish_code = #dish_code#
+	</select>
+	
+	<update id="UpdateIngre" parameterClass="ingredientVo">
+		update ingredient
+		set ingredient_name = #ingredient_name#
+		where dish_code = #dish_code#
+		and ingredient_num=#ingredient_num#;
+	</update>
+	
+	<select id="ManualNum" parameterClass="int" resultClass="int">
+		select max(rcp_num)
+		from recipe
+		where dish_code = #dish_code#
+	</select>
+	
+	<update id="UpdateManual" parameterClass="recipeVo">
+		update recipe
+		set rcp_manual = #rcp_manual#, rcp_att = #rcp_att#
+		where dish_code = #dish_code#
+		and rcp_num=#rcp_num#
+	</update>
+	
+	<update id="UpdateDishHitDown" parameterClass="int">
+		update dish
+		set dish_hit=dish_hit-1
+		where dish_code=#dish_code#
+	</update>
+	
+</sqlMap>

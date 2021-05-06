@@ -1,0 +1,39 @@
+package product.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.LprodVO;
+import vo.ProdVO;
+
+public class ProdDaoImpl implements IProdDao {
+	private SqlMapClient client;
+	private static ProdDaoImpl dao;
+	
+	private ProdDaoImpl() {
+		client = SqlMapUtil.getSqlMapClient();
+	}
+	
+	public static ProdDaoImpl getInstance() {
+		if(dao == null) dao = new ProdDaoImpl();
+		return dao;
+	}
+	@Override
+	public List<LprodVO> listLprod() throws SQLException {
+		return client.queryForList("lprod.listLprod");
+	}
+
+	@Override
+	public List<ProdVO> listProd() throws SQLException {
+		return client.queryForList("prod.listProd");
+	}
+
+	@Override
+	public List<ProdVO> listProdDesc() throws SQLException {
+		return client.queryForList("prod.listProdDesc");
+	}
+
+}

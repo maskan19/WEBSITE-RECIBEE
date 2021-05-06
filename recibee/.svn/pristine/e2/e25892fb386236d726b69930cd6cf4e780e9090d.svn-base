@@ -1,0 +1,21 @@
+package product.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import vo.LprodVO;
+import vo.ProdVO;
+
+public interface IProdDao {
+	// 분류 명 리스트 가져오기
+	public List<LprodVO> listLprod() throws SQLException;
+	
+	// 상품 리스트 가격 낮은순 가져오기(기본)
+	public List<ProdVO> listProd() throws SQLException;
+	
+	// 상품 리스트 가격 높은순 가져오기
+	public List<ProdVO> listProdDesc() throws SQLException;
+	
+	// 상품 검색 리스트 가져오기
+	public List<ProdVO> searchListProd(String search) throws SQLException;
+}

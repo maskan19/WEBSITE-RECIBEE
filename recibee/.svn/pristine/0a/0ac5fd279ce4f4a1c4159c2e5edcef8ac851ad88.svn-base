@@ -1,0 +1,48 @@
+package product.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import vo.CartVO;
+import vo.LprodVO;
+import vo.ProdVO;
+
+public interface IProdDao {
+	// 분류 명 리스트 가져오기
+	public List<LprodVO> listLprod() throws SQLException;
+	
+	// 상품 리스트 가격 낮은순 가져오기(기본)
+	public List<ProdVO> listProd() throws SQLException;
+	
+	// 상품 리스트 가격 높은순 가져오기
+	public List<ProdVO> listProdDesc() throws SQLException;
+	
+	// 상품 검색 리스트 가져오기
+	public List<ProdVO> searchListProd(String search) throws SQLException;
+	
+	// 상품 상세 보기
+	public List<ProdVO> detailProd(int code) throws SQLException;
+	
+	// 상품 상세 보기 - 관련상품(분류가 동일한것)
+	public List<ProdVO> accDetailProd(int lprod) throws SQLException;
+	
+	// 분류별 상품 리스트
+	public List<ProdVO> selectLprod(int lprod) throws SQLException;
+	
+	// 상품 카트 리스트
+	public List<CartVO> listCart(String memId) throws SQLException;
+	
+	// 상품 카트 추가
+	public void insertCart(CartVO cvo) throws SQLException;
+	
+	// 상품 카트 수정
+	public void updateCart(CartVO cvo) throws SQLException;
+	
+	// 상품 분류별 리스트
+	public List<ProdVO> LprodListProd(int lprod) throws SQLException;
+	
+	// 카트 상품 삭제
+	public void deleteCartProd(CartVO cvo) throws SQLException;
+	
+}

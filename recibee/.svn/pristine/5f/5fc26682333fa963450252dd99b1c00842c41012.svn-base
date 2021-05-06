@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="post">
+
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<typeAlias alias="replyVo" type="vo.PostrplVO" />
+	<typeAlias alias="postAttVo" type="vo.PostAttVO" />
+	
+	
+	<select id="getListFaqPost" resultClass="postVo">
+		select * from post where board_code = 1 order by post_code
+		
+	</select>
+	
+	<update id="updatePost" parameterClass="postVo">
+		update post set post_title = #post_title#,
+					   post_cont = #post_cont#
+					 where post_code = #post_code#
+	</update>
+	
+	
+	
+	<insert id="insertPost" parameterClass="postVo">
+		insert into post (post_code, board_code, mem_id, post_title, post_cont, post_date, post_hit, post_rpt)
+				values(post_seq.nextval, #board_code#, #mem_id#, #post_title#, #post_cont#, sysdate, 0, 0)
+		<selectKey keyProperty="post_code" resultClass="int" type="post">
+			select post_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insertPostAtt" parameterClass="postAttVo">
+		INSERT INTO post_att ( post_file, post_code, file_num) VALUES ( #post_file#, #post_code#, #file_num#)
+	</insert>
+	
+	
+	<select id ="insertadmin" resultClass="postVo">
+		select * from post where mem_id in(
+									select mem_id
+									from member
+									where mem_grade=999)
+									and board_code=1;
+	</select>
+	
+	
+	<delete id="deletePost" parameterClass="int">
+      delete from post where post_code = #post_code#
+   </delete>
+	
+	
+	
+	<delete id="delete" parameterClass="int">
+		Delete * From post where post_code = #post_code#
+	</delete>
+	
+	
+	
+	<select id="getPostlist" resultClass="postVo">
+		select * from post order by post_date desc
+	</select>
+
+	<select id="getPostAtt" parameterClass="Integer"
+		resultClass="postAttVo">
+		select * from post_att where post_code=(select post_code
+		from (select post.*, rownum rnum from (select * from post order by
+		post_code desc) post ) where rnum=#data#)
+	</select>
+
+	<select id="getPostRpl" parameterClass="Integer"
+		resultClass="replyVo">
+		select * from postrpl where post_code=(select post_code
+		from (select post.*, rownum rnum from (select * from post order by
+		post_code desc) post ) where rnum=#data#)
+	</select>
+	
+	
+</sqlMap>

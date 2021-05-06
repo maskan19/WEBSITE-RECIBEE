@@ -1,0 +1,60 @@
+package common.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import common.dao.CommonDaoImpl;
+import common.dao.ICommonDao;
+import vo.DishVO;
+import vo.PostVO;
+import vo.ProdVO;
+
+public class CommonServiceImpl implements ICommonService {
+	private ICommonDao comDao;
+
+	private static CommonServiceImpl comService;
+
+	private CommonServiceImpl() {
+		comDao = CommonDaoImpl.getInstance();
+	}
+
+	public static CommonServiceImpl getInstance() {
+		if (comService == null)
+			comService = new CommonServiceImpl();
+		return comService;
+	}
+
+	@Override
+	public List<DishVO> getDishlist() {
+		List<DishVO> dish = null;
+		try {
+			dish = comDao.getDishlist();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dish;
+	}
+
+	@Override
+	public List<ProdVO> getProdlist() {
+		List<ProdVO> prod = null;
+		try {
+			prod = comDao.getProdlist();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return prod;
+	}
+
+	@Override
+	public List<PostVO> getPostList() {
+		List<PostVO> post = null;
+		try {
+			post = comDao.getPostList();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return post;
+	}
+
+}

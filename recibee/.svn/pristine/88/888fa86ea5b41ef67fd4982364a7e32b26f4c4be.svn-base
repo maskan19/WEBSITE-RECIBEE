@@ -1,0 +1,37 @@
+package myPage.service;
+
+import java.sql.SQLException;
+
+import myPage.dao.IMyPageDao;
+import myPage.dao.MyPageDaoImpl;
+import vo.MemberVO;
+
+public class MyPageServiceImpl implements IMyPageService {
+	
+	private static MyPageServiceImpl service;
+	
+	private IMyPageDao dao;
+	
+	private MyPageServiceImpl() {
+		dao = MyPageDaoImpl.getInstance();
+	}
+	
+	public static MyPageServiceImpl getInstance() {
+		if(service ==null) service = new MyPageServiceImpl();
+		return service;
+	}
+
+	@Override
+	public MemberVO getMyInfo(String memId) {
+		MemberVO vo = new MemberVO();
+		
+		try {
+			vo = dao.getMyInfo(memId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+}

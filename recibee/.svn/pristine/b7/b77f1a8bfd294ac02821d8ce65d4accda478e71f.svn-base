@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="common">
+
+	<typeAlias alias="dishVo" type="vo.DishVO" />
+	<typeAlias alias="prodVo" type="vo.ProdVO" />
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<typeAlias alias="replyVo" type="vo.PostrplVO" />
+	<typeAlias alias="attVo" type="vo.PostAttVO" />
+
+
+<!-- 
+	<resultMap class="postVo" id="postSet">
+		<result property="post_rpt" column="POST_CODE" javaType="Integer" jdbcType="NUMBER" />
+		<result property="post_hit" column="BOARD_CODE" javaType="Integer" jdbcType="NUMBER" />
+		<result property="post_date" column="MEM_ID" />
+		<result property="post_cont" column="POST_TITLE" />
+		<result property="post_title" column="POST_CONT"/>
+		<result property="mem_id" column="POST_DATE" javaType="String" jdbcType="DATE" />
+		<result property="board_code" column="POST_HIT" javaType="Integer" jdbcType="NUMBER" />
+		<result property="post_code" column="POST_RPT" javaType="Integer" jdbcType="NUMBER" />
+		<result property="post_rpls" column="POST_CODE" javaType="java.util.ArrayList" select="getReplys" />
+	</resultMap>
+	  -->
+		
+		
+	<!-- 	
+	<resultMap id="postSet" class="vo.PostVO" groupBy="post_code">
+		<result property="post_code" column="POST_CODE" />
+		<result property="post_id" column="MEM_ID" />
+		<result property="post_title" column="POST_TITLE" />
+		<result property="post_cont" column="POST_CONT"/>
+		<result property="post_rpls" resultMap="common.getReplylist" />
+	</resultMap>
+	
+
+	<select id="getDishlist" resultClass="dishVo">
+		select * from dish where dish_del=0 and dish_code < 30 order by dish_date desc
+	</select>
+
+	<resultMap id="replySet" class="vo.ReplyVO">
+		<result property="prpl_code" column="PRPL_CODE"/>
+		<result property="post_code" column="POST_CODE"/>
+	</resultMap> 
+	
+	
+	<select id="getReplylist" resultClass="replySet">
+		select * from postrpl order by prod_code desc
+	</select>
+
+	
+	<select id="getProdlist" resultClass="prodVo">
+		select * from prod order by prod_code desc
+
+	<select id="getProdlist" resultClass="prodVo">
+		select * from prod order by prod_code desc
+
+	<select id="getPostlist" resultClass="postSet">
+		select * from post order by post_date desc
+	</select>
+	   -->
+	
+<!-- 	
+	<resultMap id="PostList" class="vo.PostVO">
+	<result property="post_code" column="POST_CODE" />
+		<result property="post_id" column="MEM_ID" />
+		<result property="post_title" column="POST_TITLE" />
+		<result property="post_cont" column="POST_CONT"/>
+		<result property="post_rpls" column="POST_RPLS" javaType="java.util.ArrayList" select="getReplylist"/>
+	</resultMap>
+
+	<resultMap id="ReplyList" class="vo.ReplyVO">
+		<result property="prpl_code" column="PRPL_CODE"/>
+		<result property="post_code" column="POST_CODE"/>
+	</resultMap>
+ -->
+
+	
+	
+	
+	<select id="getReplylist" resultClass="replyVo">
+		select * from postrpl order by prod_code desc
+	</select>
+	
+	<select id="getPostlist" resultClass="postVo">
+		select * from post order by post_date desc
+	</select>
+
+
+
+
+
+	<select id="getDishlist" resultClass="dishVo">
+		 <![CDATA[select * from dish where dish_del=0 and dish_code<30 order by dish_date desc ]]>
+	</select>
+
+	<select id="getProdlist" resultClass="prodVo">
+		select * from prod order by
+		prod_code desc
+	</select>
+
+
+	<select id="getRecentPost" parameterClass="Integer"
+		resultClass="postVo">
+		select * from (select post.*, rownum rnum from (select *
+		from post order by post_code desc) post where board_code=2) where rnum=#data#
+	</select>
+
+	<select id="getPostAtt" parameterClass="Integer"
+		resultClass="attVo">
+		select * from post_att where post_code=(select post_code
+		from (select post.*, rownum rnum from (select * from post order by
+		post_code desc) post where board_code=2) where rnum=#data#)
+	</select>
+
+	<select id="getPostRpl" parameterClass="Integer"
+		resultClass="replyVo">
+		select * from postrpl where post_code=(select post_code
+		from (select post.*, rownum rnum from (select * from post order by
+		post_code desc) post where board_code=2) where rnum=#data#)
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<section class="hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="hero__search">
+					<div class="div__top__layer">
+						<div class="hero__search__form">
+							<form action="#">
+								<div class="hero__search__categories dropdown">
+									<select class="dropdown" placeholder="All Category">
+										<option>All Category</option>
+										<option>레시피</option>
+										<option>상품</option>
+										<option>게시판1</option>
+										<option>게시판2</option>
+									</select>
+								</div>
+								<input type="text" placeholder="What do yo u need?">
+								<button type="submit" class="site-btn">SEARCH</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,15 @@
+package post.dao;
+
+import java.sql.SQLException;
+
+import vo.PostVO;
+import vo.MemberVO;
+
+public interface IPostDao {
+
+	// 내 회원 정보 가져오는 메서드
+	public PostVO getPost(PostVO vo) throws SQLException;
+	
+	// 회원 정보 수정하는 메서드
+	public int updatePost(PostVO vo) throws SQLException;
+}

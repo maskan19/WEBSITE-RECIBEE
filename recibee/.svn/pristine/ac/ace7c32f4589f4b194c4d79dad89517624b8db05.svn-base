@@ -1,0 +1,31 @@
+package product.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import vo.LprodVO;
+import vo.ProdVO;
+
+public interface IProdService {
+	// 분류 명 리스트 가져오기
+	public List<LprodVO> listLprod();
+	
+	// 상품 리스트 가격 낮은순 가져오기(기본)
+	public List<ProdVO> listProd();
+	
+	// 상품 리스트 가격 높은순 가져오기
+	public List<ProdVO> listProdDesc();
+	
+	// 상품 검색 리스트 가져오기
+	public List<ProdVO> searchListProd(String search);
+	
+	// 상품 상세 보기
+	public List<ProdVO> detailProd(int code);
+	
+	// 상품 상세 보기 - 관련상품(분류가 동일한것)
+	public List<ProdVO> accDetailProd(int lprod);
+	
+	// 분류별 상품 리스트
+	public List<ProdVO> selectLprod(int lprod);
+}

@@ -1,0 +1,55 @@
+package myPage.dao;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import vo.DishVO;
+import vo.MemberVO;
+import vo.PostVO;
+import vo.PostrplVO;
+
+public interface IMyPageDao {
+	// 내 회원 정보 가져오는 메서드
+	public MemberVO getMyInfo(MemberVO vo) throws SQLException;
+	
+	// 회원 정보 수정하는 메서드
+	public int updateMyInfo(MemberVO vo) throws SQLException;
+	
+	// 회원 정보 탈퇴하는 메서드
+	public int deleteMember(String memId) throws SQLException;
+	
+	// 내 게시글 가져오는 메서드
+	public List<HashMap<String, Object>> getMyPost(Map<String, Object> map) throws SQLException;
+	
+	// 내 게시글 수 가져오는 메서드
+	public int getCountMyPost(String memId) throws SQLException;
+	
+	// 게시글에 해당하는 댓글 수를 가져오는 메서드
+	public int getCountReply(int post_code) throws SQLException;
+	
+	// 내 게시글 중 선택한 글 삭제하는 메서드
+	public int deleteMyPost(int post_code) throws SQLException;
+	
+	// 내가 작성한 레시피 가져오는 메서드
+	public List<DishVO> getMyRecipe(Map<String, Object> map) throws SQLException;
+	
+	// 내가 작성한 레시피 갯수 가져오는 메서드
+	public int getCountMyRecipe(String mem_id) throws SQLException;
+	
+	// 내가 작성한 댓글 가져오는 메서드
+	public List<PostrplVO> getMyReply(Map<String, Object> map) throws SQLException;
+	
+	// 내가 작성한 댓글 수 가져오는 메서드
+	public int getCountMyReply(String mem_id) throws SQLException;
+	
+	// 내 레시피 삭제하는 메서드
+	public int deleteMyRecipe(int dish_code) throws SQLException;
+	
+	// 신고된 레시피 가져오는 메서드
+	public List<DishVO> getRPTRecipe(Map<String, Object> map) throws SQLException;
+	
+	// 신고된 레시피 수 가져오는 메서드
+	public int getCountRPTRecipe() throws SQLException;
+}

@@ -1,0 +1,12 @@
+package post.service;
+
+import vo.PostVO;
+
+public interface IPostService {
+	
+	// 내 회원 정보 가져오는 메서드
+	public PostVO getPost(PostVO vo);
+
+	// 회원 정보 수정하는 메서드
+	public int updatePost(PostVO vo);
+}

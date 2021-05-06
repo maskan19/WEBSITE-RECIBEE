@@ -1,0 +1,140 @@
+package myPage.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import myPage.dao.IMyPageDao;
+import myPage.dao.MyPageDaoImpl;
+import vo.MemberVO;
+import vo.PostVO;
+
+public class MyPageServiceImpl implements IMyPageService {
+	
+	private static MyPageServiceImpl service;
+	
+	private IMyPageDao dao;
+	
+	private MyPageServiceImpl() {
+		dao = MyPageDaoImpl.getInstance();
+	}
+	
+	public static MyPageServiceImpl getInstance() {
+		if(service ==null) service = new MyPageServiceImpl();
+		return service;
+	}
+
+//	@Override
+//	public MemberVO getMyInfo(String memId) {
+//		MemberVO vo = new MemberVO();
+//		
+//		try {
+//			vo = dao.getMyInfo(memId);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return vo;
+//	}
+
+	@Override
+	public int updateMyInfo(MemberVO vo) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.updateMyInfo(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public MemberVO getMyInfo(MemberVO vo) {
+		MemberVO memVo = new MemberVO();
+		
+		try {
+			memVo = dao.getMyInfo(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return memVo;
+	}
+
+	@Override
+	public int deleteMember(String memId) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.deleteMember(memId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+//	@Override
+//	public List<Map<String, Object>> getMyRecipe(String memId) {
+//		
+//		List<Map<String, Object>> list = null;
+//		
+//		try {
+//			list = dao.getMyRecipe(memId);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		
+//		return list;
+//	}
+
+	@Override
+	public int getCountReply(int post_code) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.getCountReply(post_code);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public List<PostVO> getMyRecipe(String memId) {
+		List<PostVO> list = null;
+		
+		try {
+			list = dao.getMyRecipe(memId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public String getPostAtt(int post_code) {
+		String att = "";
+		
+		try {
+			att = dao.getPostAtt(post_code);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return att;
+	}
+
+	
+
+}

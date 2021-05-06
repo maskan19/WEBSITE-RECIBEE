@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="mypage">
+	<typeAlias alias="memVo" type="vo.MemberVO" />
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<typeAlias alias="post_attVo" type="vo.PostAttVO"/>
+	<typeAlias alias="postrplVo" type="vo.PostrplVO"/>
+	<typeAlias alias="dishVo" type="vo.DishVO"/>
+	<typeAlias alias="cartVo" type="vo.CartVO"/>
+	
+	<select id="getMyInfo" parameterClass="memVo" resultClass="memVo">
+		select * from member where mem_id = #mem_id# and mem_pass = #mem_pass#
+	</select>
+	
+	<update id="updateMyInfo" parameterClass="memVo">
+		update member set mem_pass = #mem_pass#,
+						  mem_ali = #mem_ali#,
+						  mem_tel = #mem_tel#
+					 where mem_id = #mem_id#
+	</update>
+	
+	<update id="deleteMember" parameterClass="string">
+		update member set mem_dismember = 0
+					where mem_id = #data#
+	</update>
+	
+	<select id="getMyPost" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select d.*
+			from (select rownum as rn ,c.*
+			from (select a.*, b.post_file
+			from post a full outer join post_att b on a.post_code = b.post_code
+			where a.mem_id = #mem_id# and (b.file_num = 1 or b.file_num is null) 
+			order by a.post_date desc) c
+			<![CDATA[
+			where rownum <= #end#) d
+			where d.rn >= #start#
+			]]>
+	</select>
+	
+	<select id="getCountMyPost" parameterClass="string" resultClass="int">
+		select count(*) from post where mem_id = #data#
+	</select>
+	
+<!-- 	<select id="getPostAtt" parameterClass="int" resultClass="string"> -->
+<!-- 		select post_file from post_att where post_code = #data# and rownum=1 -->
+<!-- 	</select> -->
+	
+	<select id="getCountReply" parameterClass="int" resultClass="int">
+		select count(*) from postrpl where post_code = #data#
+	</select>
+	
+<!-- 	<select id="getMyReply" parameterClass="string" resultClass="postrplVo"> -->
+<!-- 		select * from postrpl where mem_id = #data# order by prpl_date desc -->
+<!-- 	</select> -->
+	
+	<delete id="deleteMyPost" parameterClass="int">
+		delete from post where post_code = #data#
+	</delete>
+	
+	<select id="getMyRecipe" parameterClass="map" resultClass="dishVo">
+		select *
+  		  from (select rownum as rn, a.*
+                  from (select *
+		                  from dish
+		                 where mem_id = #mem_id# and dish_del = 0
+		                 order by dish_date desc) a
+		                 <![CDATA[
+         		  where rownum <= #end#)
+		 where rn >= #start#
+		 ]]>
+	</select>
+	
+	<select id="getCountMyRecipe" parameterClass="string" resultClass="int">
+		select count(*) from dish where mem_id = #data# and dish_del = 0
+	</select>
+	
+	<update id="deleteMyRecipe" parameterClass="int">
+		update dish set dish_del = 1 where dish_code = #data#
+	</update>
+	
+	<!-- 댓글 페이징 처리하여 불러오는 쿼리문 -->
+	<select id="getMyReply" parameterClass="map" resultClass="postrplVo">
+		select *
+		  from (select rownum as rn, a.*
+		          from (select *
+		                  from postrpl
+		                 where mem_id = #mem_id#
+		                 order by prpl_date desc) a
+		                 <![CDATA[
+		         where rownum <= #end#)
+		  where rn >= #start#
+		  ]]>
+	</select>
+	
+	<select id="getCountMyReply" parameterClass="string" resultClass="int">
+		select count(*) from postrpl where mem_id = #data#
+	</select>
+	<select id="getMyLikeList" parameterClass="map" resultClass="dishVo">
+		select *
+			from (select rownum as rn, c.*
+			from (select a.*
+			from dish a, (select * from likelist where mem_id = #mem_id#) b
+			where a.dish_code = b.dish_code) c
+			<![CDATA[
+			where rownum <= #end#)
+			where rn >= #start#
+			]]>
+	</select>
+	<select id="getCountMyLikeList" parameterClass="string" resultClass="int">
+		select count(*) from likelist where mem_id = #data#
+	</select>
+	<delete id="deleteMyLikeList" parameterClass="map">
+		delete from likelist where mem_id = #mem_id# and dish_code = #dish_code#
+	</delete>
+	
+	<select id="getMyCart" parameterClass="map" resultClass="java.util.HashMap">
+		select a.*, b.prod_name
+	from cart a, prod b
+	where mem_id = #mem_id# and pay_code = #pay_code# and pay_code is not null and a.prod_code = b.prod_code
+	order by cart_code desc
+	</select>
+	
+	<select id="getPayCode" parameterClass="map" resultClass="int">
+		select pay_code
+			from (select rownum as rn, a.*
+			from (select DISTINCT(pay_code)
+			from cart
+			where mem_id = #mem_id# and pay_code is not null
+			order by pay_code) a
+			<![CDATA[
+			where rownum <= #end#)
+			where rn >= #start#
+			]]>
+	</select>
+	<select id="getCountMyCart" parameterClass="string" resultClass="int">
+		select count(distinct(pay_code)) from cart where mem_id = #data# and pay_code is not null
+	</select>
+	
+	
+
+	
+	<select id="getRPTRecipe" parameterClass="map" resultClass="dishVo">
+		select *
+			from (select rownum as rn, a.*
+			        from (select * from dish where dish_rpt > 0 and dish_del = 0 order by dish_rpt desc) a
+			        <![CDATA[
+			       where rownum <= #end#)
+			where rn >= #start#
+			]]>
+	</select>
+	
+	<select id="getCountRPTRecipe" resultClass="int">
+		select count(*) from dish where dish_rpt > 0 and dish_del = 0
+	</select>
+	
+	<select id="getRPTPost" parameterClass="map" resultClass="postVo">
+		select *
+			from (select rownum as rn, a.*
+			from (select * from post where post_rpt > 0 order by post_rpt desc) a
+			<![CDATA[
+			where rownum <= #end#)
+			where rn >= #start#
+			]]>
+	</select>
+	<select id="getCountRPTPost"  resultClass="int">
+		select count(*) from post where post_rpt > 0
+	</select>
+	
+	
+	<select id="getAllMember" parameterClass="map" resultClass="memVo">
+		select *
+		from (select rownum as rn, a.*
+			from (select * from member order by joindate desc) a
+			<![CDATA[
+			where rownum <= #end#) 
+			where rn >=#start#
+			]]>
+	</select>
+	
+	<select id="getCountAllMember" resultClass="int">
+		select count(*) from member
+	</select>
+	
+	<update id="deleteMemberAdmin" parameterClass="string">
+		update member set mem_dismember = 999, mem_disdate = sysdate where mem_id = #data#
+	</update>
+	
+	<update id="activeMember" parameterClass="string">
+		update member set mem_dismember = 1, mem_disdate = null where mem_id = #data#
+	</update>
+	
+	<select id="getRPTMember" parameterClass="map" resultClass="memVo">
+		select *
+			from (select rownum as rn, a.*
+			from (select *  from member where mem_totalrpt > 0 and MEM_DISMEMBER = 1 order by mem_totalrpt) a
+			<![CDATA[
+			where rownum <= #end#)
+			where rn >= #start#
+			]]>
+	</select>
+	<select id="getCountRPTMember" resultClass="int">
+		select count(*) from member where mem_totalrpt > 0 and MEM_DISMEMBER = 1
+	</select>
+	<select id="getMemberInfo" parameterClass="string" resultClass="memVo">
+		select * from member where mem_id = #data#
+	</select>
+	<select id="getCountMemberPay" parameterClass="string" resultClass="int">
+		select count(distinct(pay_code)) from cart where mem_id = #data# and pay_code is not null
+	</select>
+	<update id="updateMemberInfo" parameterClass="memVo">
+		update member set mem_pass = #mem_pass#, mem_ali = #mem_ali#, mem_tel = #mem_tel#, mem_mile = #mem_mile# where mem_id = #mem_id#
+	</update>
+	
+	<select id="getRPTReply" parameterClass="map" resultClass="postrplVo">
+		select *
+			from (select rownum as rn, a.*
+			from (select * from postrpl where prpl_rpt > 0) a
+			<![CDATA[
+			where rownum <= #end#)
+			where rn >= #start#
+			]]>
+	</select>
+	<select id="getCountRPTReply" resultClass="int">
+		select count(*) from postrpl where prpl_rpt > 0
+	</select>
+	
+	
+	
+</sqlMap>

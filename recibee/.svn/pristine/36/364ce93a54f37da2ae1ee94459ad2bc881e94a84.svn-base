@@ -1,0 +1,41 @@
+package common.action;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import common.service.CommonServiceImpl;
+import common.service.ICommonService;
+import vo.DishVO;
+import vo.PostVO;
+import vo.ProdVO;
+import web.IAction;
+
+public class IndexPageAction implements IAction {
+
+	@Override
+	public boolean isRedirect() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ICommonService service = CommonServiceImpl.getInstance();
+		List<DishVO> dish = service.getDishlist();
+		List<ProdVO> prod = service.getProdlist();
+		List<PostVO> post = service.getPostList();
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		request.setAttribute("Dishlist", dish);
+		request.setAttribute("Prodlist", prod);
+		request.setAttribute("Postlist", post);
+		
+		return "/index.jsp";
+	}
+
+}

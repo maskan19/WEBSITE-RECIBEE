@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="board">
+
+	<select id="getAllPost" resultClass="postVo">
+		select * from post where
+		board_code=4 or board_code=5 order by post_code desc
+	</select>
+	
+	<select id="getBoardPost" resultClass="postVo" parameterClass="int">
+		select * from post where
+		board_code=#data# order by post_code desc
+	</select>
+
+	<select id="getPostAtt" resultClass="postAttVo"
+		parameterClass="java.lang.Integer">
+		select * from post_att where post_code=#data#
+	</select>
+
+	<select id="getPostRpl" resultClass="replyVo"
+		parameterClass="java.lang.Integer">
+		select * from postrpl where post_code=#data#
+	</select>
+
+	<select id="getExactPost" resultClass="postVo"
+		parameterClass="java.lang.Integer">
+		select * from post where post_code=#data#
+	</select>
+
+	<select id="getAli" resultClass="memVo" parameterClass="String">
+		select
+		mem_ali, mem_icon from member where mem_id=#data#
+	</select>
+
+	<delete id="deletePost" parameterClass="Integer">
+		Delete From post Where
+		post_code = #data#
+	</delete>
+
+
+	<update id="updatePost" parameterClass="PostVo">
+		Update post
+		Set
+		post_title = #post_title#,
+		post_cont = #post_cont#
+		where post_code = #post_code#
+	</update>
+
+
+</sqlMap>

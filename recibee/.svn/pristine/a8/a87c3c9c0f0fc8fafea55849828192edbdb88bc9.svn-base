@@ -1,0 +1,26 @@
+package admin.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import vo.LprodVO;
+import vo.ProdVO;
+import vo.Prod_AttVO;
+
+public interface IProductInsertService {
+	public List<LprodVO> LprodList();
+	
+	/**
+	 * 상품등록
+	 * @return
+	 * @throws SQLException
+	 */
+	public int ProdInsert(ProdVO vo);
+	
+	/**
+	 * 상품사진 등록
+	 * @param vo
+	 * @throws SQLException
+	 */
+	public void ProdAttInsert(Prod_AttVO vo);
+}

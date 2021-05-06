@@ -1,0 +1,16 @@
+package admin.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import vo.LprodVO;
+
+public class ProductInsertDaoImpl implements IProductInsertDao {
+
+	@Override
+	public List<LprodVO> LprodList() throws SQLException {
+		
+		return null;
+	}
+
+}

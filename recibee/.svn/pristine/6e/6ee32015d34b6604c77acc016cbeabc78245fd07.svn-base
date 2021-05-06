@@ -1,0 +1,29 @@
+package product.lprod.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.LprodVO;
+
+public class LprodDaoImpl implements ILprodDao {
+	private SqlMapClient client;
+	private static LprodDaoImpl dao;
+	
+	private LprodDaoImpl() {
+		client = SqlMapUtil.getSqlMapClient();
+	}
+	
+	public static LprodDaoImpl getInstance() {
+		if(dao == null) dao = new LprodDaoImpl();
+		return dao;
+	}
+	@Override
+	public List<LprodVO> listLprod() throws SQLException {
+		// TODO Auto-generated method stub
+		return client.queryForList("lprod.listLprod");
+	}
+
+}

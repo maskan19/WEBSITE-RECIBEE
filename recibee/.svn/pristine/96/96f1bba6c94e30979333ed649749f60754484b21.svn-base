@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="dish">
+	<typeAlias alias="dishVo" type="vo.DishVO" />
+	<typeAlias alias="prodVo" type="vo.ProdVO" />
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	
+	<select id="getDishlist" resultClass="dishVo">
+		select * from dish where dish_del=0 order by dish_date desc
+	</select>
+	
+	<select id="getProdlist" resultClass="prodVo">
+		select * from dish where dish_del=0 order by dish_date desc
+	</select>
+	
+	<select id="getPostlist" resultClass="postVo">
+		select * from dish where dish_del=0 order by dish_date desc
+	</select>
+	
+	
+</sqlMap>

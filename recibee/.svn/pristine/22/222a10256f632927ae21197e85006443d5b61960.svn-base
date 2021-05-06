@@ -1,0 +1,29 @@
+package myPage.dao;
+
+import java.sql.SQLException;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.MemberVO;
+
+public class MyPageDaoImpl implements IMyPageDao {
+	
+	private SqlMapClient smc;
+	private static MyPageDaoImpl dao;
+	
+	private MyPageDaoImpl() {
+		smc = SqlMapUtil.getSqlMapClient();
+	}
+
+	public static MyPageDaoImpl getInstance() {
+		if(dao == null) dao = new MyPageDaoImpl();
+		return dao;
+	}
+	
+	@Override
+	public MemberVO getMyInfo(String memId) throws SQLException {
+		return (MemberVO) smc.queryForObject("mypage.getMyInfo", memId);
+	}
+
+}

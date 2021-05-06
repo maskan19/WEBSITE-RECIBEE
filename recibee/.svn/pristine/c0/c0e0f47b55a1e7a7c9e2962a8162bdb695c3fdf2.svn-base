@@ -1,0 +1,45 @@
+package post.dao;
+
+import java.sql.SQLException;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.PostVO;
+import vo.MemberVO;
+
+public class PostDaoImpl implements IPostDao {
+	
+	private SqlMapClient smc;
+	private static PostDaoImpl dao;
+	
+	private PostDaoImpl() {
+		smc = SqlMapUtil.getSqlMapClient();
+	}
+
+	public static PostDaoImpl getInstance() {
+		if(dao == null) dao = new PostDaoImpl();
+		return dao;
+	}
+	
+//	@Override
+//	public MemberVO getMyInfo(MemberVO vo) throws SQLException {
+//		return (MemberVO) smc.queryForObject("mypage.getMyInfo", vo);
+//	}
+//
+//	@Override
+//	public int updateMyInfo(MemberVO vo) throws SQLException {
+//		return smc.update("mypage.updateMyInfo", vo);
+//	}
+
+	@Override
+	public PostVO getPost(PostVO vo) throws SQLException {
+		return (PostVO) smc.queryForObject("post.getPost", vo);
+	}
+
+	@Override
+	public int updatePost(PostVO vo) throws SQLException {
+		return smc.update("post.updatePost", vo);
+	}
+
+}

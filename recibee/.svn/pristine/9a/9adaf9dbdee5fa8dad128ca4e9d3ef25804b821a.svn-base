@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="dish">
+	<typeAlias alias="dishVo" type="vo.DishVO"/>
+	
+	<select id="alldish" resultClass="dishVo">
+		select dish_code, dish_name, dish_date, dish_hit, dish_photo
+		from dish
+		where dish_del=0
+		order by dish_date desc
+	</select>
+	
+	<select id="dishtotalCount" resultClass="int">
+		select count(*) from dish where dish_del=0
+	</select>
+	
+	<select id="selectByPage" parameterClass="map" resultClass="dishVo">
+		select A.* from (
+    		select rownum as rnum, B.*  from (
+         		select * from dish 
+        		  where dish_del=0
+             order by  dish_date desc) B
+     		<![CDATA[
+      			where rownum <= #end#) A 
+   				where A.rnum >=#start#
+  			]]>
+	</select>
+	
+	<select id="searchwordcount" parameterClass="string" resultClass="int">
+		select count(*) from dish 
+		where dish_del=0 and dish_name like '%'||#content#||'%'
+	</select>
+	
+	<select id="searchwordByPage" parameterClass="map" resultClass="dishVo">
+		select A.* from (
+    		select rownum as rnum, B.*  from (
+         		select * from dish 
+        		  where dish_del=0
+        		  and dish_name like '%'||#word#||'%'
+             order by  dish_date desc) B
+     		<![CDATA[
+      			where rownum <= #end#) A 
+   				where A.rnum >=#start#
+  			]]>
+	</select>
+</sqlMap>

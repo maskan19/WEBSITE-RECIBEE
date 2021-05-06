@@ -1,0 +1,163 @@
+<%@page import="vo.DishVO"%>
+<%@page import="java.util.List"%>
+<%@page import="vo.ProdVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+<style type="text/css">
+.breadcrumb__text > h2{
+	display: inline-block;
+	margin: 0px 30px;
+}
+
+</style>
+</head>
+
+<body oncontextmenu='return false' ondragstart='return false'
+	onselectstart='return false'>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+
+    <!-- Hero Section Begin -->
+	<jsp:include page="../common/hero.jsp"></jsp:include>
+	<!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="container">
+    <section class="breadcrumb-section set-bg" data-setbg="img/blog/details/header<%=(Math.round(Math.random()*3)+1) %>.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                    <%
+                    String keyword="";
+                    
+                    if(request.getAttribute("keyword")!=null){
+                    	keyword = (String)request.getAttribute("keyword");
+                    	%>
+                        <h2>"<%=keyword %>" 검색결과</h2>
+                        <%
+                    }else{%>
+                    <h2>잘못된 접근입니다.</h2>
+                    <%
+                    }
+                    %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    <!-- Breadcrumb Section End -->
+            <% 
+            if(request.getAttribute("keyword")!=null){
+            	
+    		if (request.getAttribute("prodList")!=null) {
+    			List<ProdVO> prodList = (List<ProdVO>) request.getAttribute("prodList");
+    	
+            %>
+			
+
+    <!-- Blog Section Begin -->
+    <section class="blog spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="row">
+                    <%
+				
+				if (prodList == null || prodList.size() == 0) {
+				%>
+				<span>검색된 상품이 없습니다.</span>
+				<%
+					} else {
+						int i = 0;
+						for (ProdVO prod : prodList) {
+							String att = "준비중.jpg";
+							if (prod.getProd_atts() != null){
+								att = prod.getProd_atts().get(0).getProd_file();
+							}
+					%>
+					<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+						<div class="featured__item">
+							<div class="featured__item__pic set-bg">
+							<a href="<%=request.getContextPath()%>/jsp/ProdDetail.do?code=<%=prod.getProd_code()%>&lprod=<%=prod.getLprod_code()%>"><div class="featured__item__pic set-bg" data-setbg="pic/<%=att %>"></div></a>
+								<ul class="featured__item__pic__hover">
+								<!-- 	<li><a href="#"><i class="fa fa-heart"></i></a></li>
+									<li><a href="#"><i class="fa fa-retweet"></i></a></li> -->
+									<li><a href="#" class="ppp"><i idx="<%=prod.getProd_code() %>" class="fa fa-shopping-cart"></i></a></li>
+								</ul>
+							</div>
+							<div class="featured__item__text">
+								<h6>
+									<a href="<%=request.getContextPath()%>/jsp/ProdDetail.do?code=<%=prod.getProd_code()%>&lprod=<%=prod.getLprod_code()%>"><%=prod.getProd_name() %></a>
+								</h6>
+								<h5>₩ <%=prod.getProd_price()%></h5>
+							</div>
+						</div>
+					</div>
+                        <%
+					if(i>3) {
+						%>
+						<a>>>더보기>></a>
+						<%
+						break;
+						}
+					} }}} %>
+                        
+                    
+                    </div>
+                    
+                    <%
+				//서블릿에서 보내온 데이터를 출력한다.
+				List<DishVO> dishList = (List<DishVO>) request.getAttribute("Dishlist");
+				if (dishList == null || dishList.size() == 0) {
+				%>
+				<span>-</span>
+				<%
+					} else {
+						for (DishVO dish : dishList) {
+				%>
+					<div class="col-lg-3">
+						<div class="categories__item div__image">
+						<a href="<%=request.getContextPath()%>/jsp/RecipeDetail.do?num=<%=dish.getDish_code()%>"><div class="categories__item div__image set-bg"
+							data-setbg="<%=dish.getDish_photo()%>"></div></a>
+							<h5>
+								<a href="<%=request.getContextPath()%>/jsp/RecipeDetail.do?num=<%=dish.getDish_code()%>"><%=dish.getDish_name()%></a>
+							</h5>
+						</div>
+					</div>
+				<%
+					}
+					}
+				%>
+                    
+                </div>
+                <hr>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Blog Section End -->
+
+    <!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+	
+	
+</body>
+
+</html>

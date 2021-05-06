@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cart">
+	<typeAlias alias="CartVo" type="vo.CartVO" />
+	
+	<insert id="insertCart" parameterClass="CartVo">
+		insert into cart (cart_code, prod_code, cart_count, cart_status, cart_date, addr_code, mem_id) 
+		values (cart_seq.nextVal, #prod_code#, #cart_count#, 'n', null, null, #mem_id#)
+	</insert>
+
+	<select id="listCart" parameterClass="String" resultClass="java.util.HashMap">
+		select a.*, b.prod_name, b.prod_price, b.lprod_code, c.file_num, c.prod_file 
+		from cart a, prod b, prod_att c 
+		where a.mem_id = #mem_id# and a.prod_code = b.prod_code and a.prod_code=c.prod_code and c.file_num=1 and a.cart_status='n'
+	</select>
+	
+	<update id="updateCart" parameterClass="CartVo">
+		update cart set cart_count=#cart_count# where mem_id=#mem_id# and prod_code=#prod_code#
+	</update>
+</sqlMap>
+

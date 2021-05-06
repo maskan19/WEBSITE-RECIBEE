@@ -1,0 +1,114 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+</head>
+
+<body oncontextmenu='return true' ondragstart='return true'
+	onselectstart='return true'>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	
+  <!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdRjmUaAAAAABs-otm9UJVt5DmFiirnKUFH4eb_"></script>
+
+  <!-- Checkout Section Begin -->
+  <section class="checkout spad">
+    <div class="container">
+      <div class="checkout__form">
+        <h4>게시글 작성</h4>
+        <form action="#">
+          <div class="row">
+            <div class="col-lg-12 ">
+              <div class="checkout__input">
+                <p>제목<span>*</span><span class="checker"></span>
+                </p>
+                <input type="text" name="post_title" id="post_title" onkeypress="return MoveTab(this, event)">
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="checkout__input">
+                    <p>내용<span>*</span><span class="checker"></span>
+                      <input type="file" name="mem_icon" id="mem_icon" accept="image/*"
+                        onchange="setThumbnail(event);" />
+                    </p>
+                    <div class="image_container" contentEditable="true"><p> type here
+<img src="http://t2.gstatic.com/images?q=tbn:ANd9GcQCze-mfukcuvzKk7Ilj2zQ0CS6PbOkq7ZhRInnNd1Yz3TQzU4e&t=1" />
+</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+
+              <br><br>
+              <div class="div__flex__center ">
+                <div class="button__center">
+                  <button type="submit" class="site-btn">등록</button>
+                </div>
+              </div>
+              <br><br>
+              <div class="row"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <!-- Checkout Section End -->
+
+
+
+
+  
+
+  <script type="text/xxjavascript" language="xxjavascript">
+      var fm= frames.Editor;
+      fm.document.designMode = "ON";
+  
+  
+      function fnSetImg(imgPath) {
+          // 이미지 태그 삽입
+          var str = "<img src="+ imgPath +" />";
+          fm.focus();
+          fm.document.selection.createRange().pasteHTML(str);
+      }
+  </script>
+
+
+  <script>
+		function setThumbnail(event) {
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				var img = document.createElement("img");
+				img.setAttribute("src", event.target.result);
+				/* document.querySelector("div#image_container").removeChild(img); */
+				$('img').empty();
+				document.querySelector(".image_container").appendChild(img);
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	</script>
+
+<!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+	
+</body>
+
+</html>

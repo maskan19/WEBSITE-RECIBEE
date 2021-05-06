@@ -1,0 +1,21 @@
+package vo;
+
+public class PostAttVO {
+	private int post_code;
+	private String post_file;
+	
+	public int getPost_code() {
+		return post_code;
+	}
+	public void setPost_code(int post_code) {
+		this.post_code = post_code;
+	}
+	public String getPost_file() {
+		return post_file;
+	}
+	public void setPost_file(String post_file) {
+		this.post_file = post_file;
+	}
+	
+	
+}

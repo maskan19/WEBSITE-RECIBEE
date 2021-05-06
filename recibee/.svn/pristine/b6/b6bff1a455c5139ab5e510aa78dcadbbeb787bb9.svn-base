@@ -1,0 +1,34 @@
+package admin.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import admin.dao.IProductInsertDao;
+import admin.dao.ProductInsertDaoImpl;
+import vo.LprodVO;
+
+public class ProductInsertServiceImpl implements IProductInsertService {
+	private  IProductInsertDao dao;
+	private static ProductInsertServiceImpl service;
+	
+	private ProductInsertServiceImpl() {
+		dao = ProductInsertDaoImpl.getInstance();
+	}
+	
+	public static ProductInsertServiceImpl getInstance() {
+		if(service == null) service = new ProductInsertServiceImpl();
+		return service;
+	}
+	@Override
+	public List<LprodVO> LprodList() {
+		List<LprodVO> list = null;
+		try {
+			list = dao.LprodList();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+}

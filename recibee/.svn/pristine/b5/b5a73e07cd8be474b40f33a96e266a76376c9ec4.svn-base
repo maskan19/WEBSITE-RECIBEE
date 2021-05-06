@@ -1,0 +1,38 @@
+package dishreply.service;
+
+import java.sql.SQLException;
+
+import dishreply.dao.DishreplyDaoImpl;
+import dishreply.dao.IDishreplyDao;
+import vo.DishreplyVO;
+
+public class DishreplyServiceImpl implements IDishreplyService {
+	private IDishreplyDao dao;
+	private static DishreplyServiceImpl service;
+	
+	private DishreplyServiceImpl() {
+		dao = DishreplyDaoImpl.getInstance();
+	}
+	
+	public static DishreplyServiceImpl getInstance() {
+		if(service==null) service = new DishreplyServiceImpl();
+		return service;
+	}
+
+	
+	
+	@Override
+	public void insertdishreply(DishreplyVO vo) {
+			
+			try {
+				dao.insertdishreply(vo);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+
+	
+	
+}

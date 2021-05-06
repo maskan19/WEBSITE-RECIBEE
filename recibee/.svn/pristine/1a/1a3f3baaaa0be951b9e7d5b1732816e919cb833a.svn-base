@@ -1,0 +1,142 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+ 
+    <style>          
+        .mypage-set-bg{
+            height: 190px;
+        }
+        
+        .mypage__sidebar{
+            padding: 0px;
+        }
+        
+        .menu{
+            width: 700px;
+        }
+        .spad{
+            padding-top: 40px;
+        }
+        .myPage_board{
+            display: flex;
+            float: left;
+            padding: 0;
+        }
+        
+        .chkpass-btn{
+        	padding: 5px 15px;
+        }
+        .chkpass {
+        	margin: 100px 0px 0 35px;
+		}
+		.sidenav{
+		padding-top: 20px;
+     	height: 100%;
+		border : solid 1px;
+		}
+		
+    </style>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+<!-- Hero Section Begin -->
+	<section class="hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="hero__search">
+						<div class="div__top__layer">
+							<div class="hero__search__form">
+								<form action="#">
+									<div class="hero__search__categories">
+										All Categories <span class="arrow_carrot-down"></span>
+										<ul class="header__menu__dropdown">
+											<li>Recipe</li>
+											<li>Board1</li>
+											<li>Shop</li>
+										</ul>
+									</div>
+									<input type="text" placeholder="What do yo u need?">
+									<button type="submit" class="site-btn">SEARCH</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Hero Section End -->
+	
+<!-- Blog Details Hero Begin  토마토 부분 -->
+    <section class="blog-details-hero set-bg mypage-set-bg" data-setbg="img/blog/details/details-hero.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="blog__details__hero__text">
+                        <h2>상황별 레시피</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Details Hero End -->
+
+
+	<!-- 본문 내용  -->
+	
+	<section class="blog-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-5 order-md-1 order-2">
+                    <div class="blog__sidebar mypage__sidebar">
+                        <div class="blog__sidebar__item">
+                            <h4>상황별 레시피</h4>
+                            <ul>
+                                <li><a href="#">혼자 먹는 야식</a></li>
+                                <li><a href="./likedRecipe.jsp">애인이 놀러 왔을때</a></li>
+                                <li><a href="./myRecipe.jsp">많은 사람들이 왔을때</a></li>
+                                <li><a href="./myReply.jsp">다이어트 할때</a></li>
+                                <li><a href="./myAsk.jsp">산뜻한 아침이 필요할때</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 order-md-1 order-1 myPage_board">
+                    <div class="chkpass">
+                    	<h5>PassWord</h5>
+                    	<hr>
+						<input id="pass" type="password" name="pass">
+						<input class="site-btn chkpass-btn" type="submit" value="확인">                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                   
+
+
+
+
+<!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+
+</body>
+
+</html>

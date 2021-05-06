@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<style>
+.radio__input {
+    margin: 16px 0;
+    display: block;
+    cursor: pointer;
+}
+
+.radio__input input {
+    display: none;
+}
+
+.radio__input input + span {
+    line-height: 22px;
+    height: 22px;
+    padding-left: 22px;
+    display: block;
+    position: relative;
+}
+
+.radio__input input + span:not(:empty) {
+    padding-left: 30px;
+}
+
+.radio__input input + span:before, .radio__input input + span:after {
+    content: "";
+    width: 22px;
+    height: 22px;
+    display: block;
+    border-radius: 50%;
+    left: 0;
+    top: 0;
+    position: absolute;
+}
+
+.radio__input input + span:before {
+    background: #d1d7e3;
+    transition: background 0.2s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 2);
+}
+
+.radio__input input + span:after {
+    background: #fff;
+    transform: scale(0.78);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+}
+
+.radio__input input:checked + span:before {
+    transform: scale(1.04);
+    background: #5d9bfb;
+}
+
+.radio__input input:checked + span:after {
+    transform: scale(0.4);
+    transition: transform 0.3s ease;
+}
+
+.radio__input:hover input + span:before {
+    transform: scale(0.92);
+}
+
+.radio__input:hover input + span:after {
+    transform: scale(0.74);
+}
+
+.radio__input:hover input:checked + span:after {
+    transform: scale(0.4);
+}
+/* 
+.checkout__input {
+    min-height: 100vh;
+    font-family: Roboto, Arial;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+
+</style>
+<body>
+	<div>
+		<label class="radio__input">
+			<input type="radio" name="r" value="1" checked>
+			<span>남</span>
+		</label>
+		<label class="radio__input">
+			<input type="radio" name="r" value="2">
+			<span>여</span>
+		</label>
+		
+	</div>
+	
+</body>
+</html>

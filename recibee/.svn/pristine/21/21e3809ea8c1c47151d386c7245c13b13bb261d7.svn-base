@@ -1,0 +1,19 @@
+package dish.service;
+
+import java.util.List;
+import java.util.Map;
+
+import vo.DishVO;
+
+public interface IDishService {
+	public List<DishVO> alldish();
+	
+	public int dishtotalCount();
+	
+	public List<DishVO> selectByPage(Map<String, Integer> map);
+	
+	public int searchwordcount(String word);
+	
+	public List<DishVO> searchwordByPage(Map<String, String> map);
+	
+}

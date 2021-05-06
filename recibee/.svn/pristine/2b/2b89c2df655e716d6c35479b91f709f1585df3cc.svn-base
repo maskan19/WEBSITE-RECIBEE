@@ -1,0 +1,42 @@
+package dish.action;
+
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import dish.service.DishServiceImpl;
+import dish.service.IDishService;
+import vo.DishVO;
+import vo.IngredientVO;
+import vo.RecipeVO;
+import web.IAction;
+
+public class RecipeDetailAction implements IAction {
+
+	@Override
+	public boolean isRedirect() {
+		return false;
+	}
+
+	@SuppressWarnings("null")
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		IDishService service = DishServiceImpl.getInstance();
+		int dish_code = Integer.parseInt(request.getParameter("num"));
+		
+		DishVO vo = service.DishListBySelect(dish_code);
+		List<IngredientVO>Ingredientlist = service.IngredientBySelect(dish_code);
+		List<RecipeVO> ManualList = service.ManualBySelect(dish_code);
+		service.UpdateDishHit(dish_code);
+		
+		request.setAttribute("DishVo", vo);
+		request.setAttribute("Ingredientlist", Ingredientlist);
+		request.setAttribute("ManualList", ManualList);
+		request.setAttribute("DishId", dish_code);
+		return "/Recipedetails.jsp";
+	}
+
+}

@@ -1,0 +1,37 @@
+package admin.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import vo.LprodVO;
+import vo.ProdAttVO;
+import vo.ProdVO;
+
+public interface IAdminProductDao {
+	/**
+	 * 상품분류 불러와서 select에 넣어주기
+	 * @return list
+	 * @throws SQLException
+	 */
+	public List<LprodVO> LprodList() throws SQLException;
+	
+	/**
+	 * 상품등록
+	 * @return
+	 * @throws SQLException
+	 */
+	public int ProdInsert(ProdVO vo) throws SQLException;
+	/**
+	 * 상품사진 등록
+	 * @param vo
+	 * @throws SQLException
+	 */
+	public void ProdAttInsert(ProdAttVO vo) throws SQLException;
+	
+	/**
+	 * 상품삭제
+	 * @throws SQLException
+	 */
+	public void ProdDelete(int prodCode) throws SQLException;
+	
+}

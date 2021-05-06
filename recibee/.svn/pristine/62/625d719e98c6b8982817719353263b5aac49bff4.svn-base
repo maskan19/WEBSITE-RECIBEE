@@ -1,0 +1,68 @@
+package dish.action;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import dish.service.DishServiceImpl;
+import dish.service.IDishService;
+import vo.DishVO;
+import web.IAction;
+
+public class RecipeSearchWordAction implements IAction {
+
+	@Override
+	public boolean isRedirect() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		IDishService service = DishServiceImpl.getInstance();
+		
+		String spage =   request.getParameter("cpage");
+		
+		int cpage = 1;
+		
+		if(spage != null) {
+			 cpage = Integer.parseInt(spage);
+		}
+		String word = request.getParameter("word");
+		int totalCount = service.searchwordcount(word);
+		
+		int perList = 20;
+		int perPage = 10;
+
+		int totalPage = (int) (Math.ceil(totalCount / (double)perList));
+		
+		int start = (cpage-1) * perList +1;
+		int end = start + perList - 1;
+		if(end > totalCount) end = totalCount;
+		
+		int startPage = ((cpage-1) / perPage * perPage) +1;
+		int endPage = startPage + perPage -1;
+		if(endPage > totalPage) endPage = totalPage;
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("start", Integer.toString(start));
+		map.put("end", Integer.toString(end));
+		map.put("word", word);
+		
+		List<DishVO> DishSearchList = service.searchwordByPage(map);
+		
+		request.setAttribute("DishSearchList", DishSearchList);
+		request.setAttribute("setotalPage", totalPage);
+		request.setAttribute("sestartPage", startPage);
+		request.setAttribute("seendPage", endPage);
+		request.setAttribute("secpage", cpage);
+		request.setAttribute("word", word);
+		return "/SearchWordRecipe.jsp";
+	}
+
+}

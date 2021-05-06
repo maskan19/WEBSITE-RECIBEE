@@ -1,0 +1,21 @@
+package dishreply.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import vo.DishVO;
+import vo.DishreplyVO;
+import vo.IngredientVO;
+import vo.MethodsVO;
+import vo.PostVO;
+import vo.RecipeVO;
+
+public interface IDishreplyDao {
+	
+		//Dishreply  전체 내용 출력
+		public List<DishreplyVO> getListDishreply()throws SQLException;
+		
+		// Dishreply  등록
+		public void insertdishreply(DishreplyVO vo)throws SQLException;
+
+}

@@ -1,0 +1,42 @@
+#/jsp/memberList.do=member.action.MemberListAction
+
+/jsp/Login.do=common.action.LoginPageAction
+/jsp/Index.do=common.action.IndexPageAction
+/jsp/CS.do=common.action.CSPageAction
+/jsp/Shop.do=common.action.ShopPageAction
+
+
+/jsp/JoinForm.do=member.action.JoinPageAction
+/jsp/Agreement.do=member.action.AgreementPageAction
+/jsp/InsertMember.do=member.action.MemberInsertAction
+/jsp/IDDuplicate.do=member.action.IDDuplicateChecker
+/jsp/AliDuplicate.do=member.action.AliDuplicateChecker
+/jsp/Session.do=member.action.GetSessionAction
+/jsp/Logout.do=member.action.DropSessionAction
+
+/jsp/ProdList.do=product.lprod.action.LprodListAction
+/jsp/ProdInsert.do=admin.action.ProdInsertAction
+
+#/---JYR: 이메일 찾기 및 비밀번호 찾기
+/jsp/FindEmail.do=member.action.FindEmailAction
+/jsp/FindEmailResult.do=member.action.FindEmailResultAction
+/jsp/FindPw.do=member.action.FindPwAction
+/jsp/FindPwResult.do=member.action.FindPwResultAction
+
+#/---JYR : 레시피용
+/jsp/RecipeMain.do=dish.action.RecipeMainAction
+/jsp/ReadRecipeList.do=dish.action.ReadRecipeListAction
+
+#/ ---------------- myPage용 uri
+/jsp/MyInfo.do=myPage.action.MyInfoAction
+/jsp/MyPage.do=myPage.action.MyPageAction
+/jsp/UpdateMyPage.do=myPage.action.UpdateMyPageAction
+/jsp/DeleteMember.do=myPage.action.DeleteMemberAction
+
+
+#/ -----------------post용 uri
+/jsp/UpdatePostFAQ.do=post.faq.action.UpdatePostAction
+/jsp/PostFAQ.do=post.faq.action.PostFaqAction
+
+
+

@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+
+<body>
+<div contentEditable="true"> type here
+    <img src="http://t2.gstatic.com/images?q=tbn:ANd9GcQCze-mfukcuvzKk7Ilj2zQ0CS6PbOkq7ZhRInnNd1Yz3TQzU4e&t=1" />
+</div>
+</body>
+
+<script type="text/xxjavascript" language="xxjavascript">
+    var fm= frames.Editor;
+    fm.document.designMode = "ON";
+
+
+ 
+
+    function fnSetImg(imgPath) {
+        // 이미지 태그 삽입
+        var str = "<img src="+ imgPath +" />";
+        fm.focus();
+        fm.document.selection.createRange().pasteHTML(str);
+    }
+</script>
+</html>

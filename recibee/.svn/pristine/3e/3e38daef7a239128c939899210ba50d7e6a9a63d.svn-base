@@ -1,0 +1,9 @@
+package admin.service;
+
+import java.util.List;
+
+import vo.LprodVO;
+
+public interface IProductInsertService {
+	public List<LprodVO> LprodList();
+}

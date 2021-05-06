@@ -1,0 +1,162 @@
+package dish.action;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+
+import dish.service.DishServiceImpl;
+import dish.service.IDishService;
+import vo.DishVO;
+import vo.IngredientVO;
+import vo.MemberVO;
+import vo.RecipeVO;
+import vo.UploadDetail;
+
+@WebServlet("/InsertRecipe.do")
+@MultipartConfig(fileSizeThreshold=1024 * 1024 * 10, maxFileSize=1024*1024*30, maxRequestSize=1024*1024*60)
+public class InsertRecipe extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		//Upload한 파일 저장될디렉토리 설정
+		String uploadPath ="D:/A_TeachingMaterial/4.MiddleProject/workspace/recibee/WebContent/jsp/pic";
+		IDishService service = DishServiceImpl.getInstance();
+		
+		DishVO dishVo = new DishVO();
+		RecipeVO recipeVo = new RecipeVO();
+		IngredientVO ingredientVo = new IngredientVO();
+		List<UploadDetail> fileList = new ArrayList<UploadDetail>();
+		
+		int num = 0;
+		String fileName = "";
+		int dish_code = 0;
+		
+		
+		for(Part part:request.getParts()) {
+			fileName = extractFileName(part);
+			System.out.println("rtn==" + fileName);
+			String[] file = fileName.split("/");
+			System.out.println(Arrays.toString(file));
+			Map<String, String> filemap = new HashMap<String, String>();
+			for(int i=0; i< file.length; i++) {
+			}
+			num++;
+			if(num==1) {
+				UploadDetail detail = new UploadDetail();
+				detail.setFileName(fileName);
+				detail.setFileSize(part.getSize());
+				try {
+					part.write(fileName);
+					// Dish 인서트 하기!!! - 디시 인서트 하고 디시코드 가져오기 셀렉키로
+					HttpSession session = request.getSession();
+					MemberVO member = (MemberVO)session.getAttribute("Member");
+					String mem_id = member.getMem_id();
+					dishVo.setMem_id(mem_id);
+					dishVo.setDish_name(request.getParameter("dish_name"));
+					dishVo.setDish_photo(fileName);
+					dishVo.setMth_code(Integer.parseInt(request.getParameter("mth_name")));
+					//dish_code = service.InsertDish(dishVo);
+					
+					// 재료 인서트하기!!!
+					int ingnum = Integer.parseInt(request.getParameter("ingrenum"));
+					System.out.println(ingnum);
+					for(int i=1; i<ingnum; i++) {
+						// for문 돌려서 재료 여러번 넣기~
+						// ingredientVo.setDish_code(dish_code);
+						// ingredientVo.setIngredient_name(ingredient_name);
+						// ingnum++;
+						// ingredientVo.setIngredient_num(ingnum);
+						// service.insertIngred(ingredientVo);
+						ingredientVo = new IngredientVO();
+						String name = request.getParameter("ingredient_name"+i);
+						ingredientVo.setDish_code(dish_code);
+						ingredientVo.setIngredient_name(name);
+						ingredientVo.setIngredient_num(i);
+						//int cnt = service.InsertIngre(ingredientVo);
+					}
+					
+				} catch (Exception e) {
+				}
+			}
+			else if(!"".equals(fileName)) {
+				int rnum = num-1;
+				UploadDetail detail = new UploadDetail();
+				detail.setFileName(fileName);
+				detail.setFileSize(part.getSize());
+				try {
+					part.write(fileName);
+					recipeVo.setDish_code(dish_code);
+					//recipeVo.setRcp_manual(manual);
+					// recipeVo.setRcp_att(fileName);
+					// recipeVo.setRcp_num(rnum);
+					//service.insertRecipe(recipeVo);
+					
+				} catch (Exception e) {
+				}
+			}else {
+				UploadDetail detail = new UploadDetail();
+				detail.setFileName(fileName);
+				detail.setFileSize(part.getSize());
+				try {
+					part.write(fileName);
+					// recipeVo.setDish_code(dish_code);
+					// recipeVo.setRcp_manual(manual);
+					// recipeVo.setRcp_att("null");
+					// recipeVo.setRcp_num(rnum);
+					//service.insertRecipe(recipeVo);
+					
+				} catch (Exception e) {
+				}
+			}
+			
+		}
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+	
+	private String extractFileName(Part part) {
+		String fileName="";//파일명이 저장될 변수
+		String paramName=""; // 파라미터 명이 저장될 변수
+
+		//Content-Disposition헤더 정보값을 가져온다.
+		String contentDisposition = part.getHeader("Content-Disposition");
+
+		//파일인지 아닌지를 비교하기 ==> filename이 있으면 file/ 없으면 일반 데이터
+		String[] items = contentDisposition.split(";");
+		for(String item:items) {
+			//filename이 있는지 검사
+			if(item.trim().startsWith("name")){
+				System.out.println(paramName);
+				//=의 다음다음번째 부터 끝에서부터 2번째까지
+				paramName = item.substring(item.indexOf("=") + 2, item.length()-1);
+
+			}
+			if(item.trim().startsWith("filename")){
+				System.out.println(fileName);
+				//=의 다음다음번째 부터 끝에서부터 2번째까지
+				fileName = item.substring(item.indexOf("=") + 2, item.length()-1);
+				
+			}
+			
+		}
+
+		return paramName + "/" + fileName;
+	}
+
+}

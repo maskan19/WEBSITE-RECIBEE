@@ -1,0 +1,48 @@
+package dish.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+import util.SqlMapUtil;
+import vo.DishVO;
+
+public class DishDaoImpl implements IDishDao {
+	private SqlMapClient smc;
+	private static DishDaoImpl dao;
+	
+	private DishDaoImpl() {
+		smc = SqlMapUtil.getSqlMapClient();
+	}
+	
+	public static DishDaoImpl getInstance() {
+		if(dao==null) dao= new DishDaoImpl();
+		return dao;
+	}
+
+	@Override
+	public List<DishVO> alldish() throws SQLException {
+		return smc.queryForList("dish.alldish");
+	}
+
+	@Override
+	public int dishtotalCount() throws SQLException {
+		return (int) smc.queryForObject("dish.dishtotalCount");
+	}
+
+	@Override
+	public List<DishVO> selectByPage(Map<String, Integer> map) throws SQLException {
+		return smc.queryForList("dish.selectByPage", map);
+	}
+
+	@Override
+	public int searchwordcount(String word) throws SQLException {
+		return (int) smc.queryForObject("dish.searchwordcount");
+	}
+
+	@Override
+	public List<DishVO> searchwordByPage(Map<String, String> map) throws SQLException {
+		return smc.queryForList("dish.searchwordByPage", map);
+	}
+}

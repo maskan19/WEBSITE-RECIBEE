@@ -1,0 +1,34 @@
+package common.service;
+
+import java.util.List;
+
+import vo.DishVO;
+import vo.PostVO;
+import vo.ProdVO;
+
+/**
+ * 
+ * @author F1
+ *
+ */
+public interface ICommonService {
+	
+	/**
+	 * DB의 전체 요리 정보를 가져와서 List에 담아 반환하는 메서드
+	 * @return DishVO객체를 담고 있는 List 객체
+	 */
+	public List<DishVO> getDishlist();
+	
+	/**
+	 * DB의 전체 상품 정보를 가져와서 List에 담아 반환하는 메서드
+	 * @return ProdVO객체를 담고 있는 List 객체
+	 */
+	public List<ProdVO> getProdlist();
+	
+	/**
+	 * DB의 전체 게시글 정보를 가져와서 List에 담아 반환하는 메서드
+	 * @return PostVO객체를 담고 있는 List 객체
+	 */
+	public List<PostVO> getPostList();
+	
+}

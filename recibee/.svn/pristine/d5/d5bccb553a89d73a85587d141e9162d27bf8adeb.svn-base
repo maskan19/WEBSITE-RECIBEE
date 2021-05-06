@@ -1,0 +1,152 @@
+package product.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import product.dao.IProdDao;
+import product.dao.ProdDaoImpl;
+import vo.CartVO;
+import vo.LprodVO;
+import vo.ProdVO;
+
+public class ProdServiceImpl implements IProdService{
+	private IProdDao dao;
+	private static ProdServiceImpl service;
+	
+	private ProdServiceImpl() {
+		dao = ProdDaoImpl.getInstance();
+	}
+	
+	public static ProdServiceImpl getInstance() {
+		if(service == null) service = new ProdServiceImpl();
+		return service;
+	}
+	@Override
+	public List<LprodVO> listLprod() {
+		List<LprodVO> list = null;
+		try {
+			list = dao.listLprod();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ProdVO> listProd(){
+		List<ProdVO> list = null;
+		try {
+			list = dao.listProd();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ProdVO> listProdDesc() {
+		List<ProdVO> list = null;
+		try {
+			list = dao.listProdDesc();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ProdVO> searchListProd(String search) {
+		List<ProdVO> list = null;
+		try {
+			list = dao.searchListProd(search);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ProdVO> detailProd(int code) {
+		List<ProdVO> list = null;
+		try {
+			list = dao.detailProd(code);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ProdVO> selectLprod(int lprod) {
+		List<ProdVO> list = null;
+		try {
+			list = dao.selectLprod(lprod);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<ProdVO> accDetailProd(int lprod) {
+		List<ProdVO> list = null;
+		try {
+			list = dao.accDetailProd(lprod);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<CartVO> listCart(String memId) {
+		List<CartVO> list = null;
+		try {
+			list = dao.listCart(memId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void insertCart(CartVO cvo) {
+		try {
+			dao.insertCart(cvo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void updateCart(CartVO cvo) {
+		try {
+			dao.updateCart(cvo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<ProdVO> LprodListProd(int lprod) {
+		List<ProdVO> list = null;
+		try {
+			list = dao.LprodListProd(lprod);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+}

@@ -1,0 +1,38 @@
+package product.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import product.dao.IProdDao;
+import product.dao.ProdDaoImpl;
+import vo.LprodVO;
+
+public class ProdServiceImpl implements IPordService{
+	private IProdDao dao;
+	private static ProdServiceImpl service;
+	
+	private ProdServiceImpl() {
+		dao = ProdDaoImpl.getInstance();
+	}
+	
+	public static ProdServiceImpl getInstance() {
+		if(service == null) service = new ProdServiceImpl();
+		return service;
+	}
+	@Override
+	public List<LprodVO> listLprod() {
+		List<LprodVO> list = null;
+		try {
+			list = dao.listLprod();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	
+	
+	
+	
+}

@@ -1,0 +1,76 @@
+package myPage.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.MemberVO;
+import vo.PostVO;
+import vo.PostrplVO;
+
+public class MyPageDaoImpl implements IMyPageDao {
+	
+	private SqlMapClient smc;
+	private static MyPageDaoImpl dao;
+	
+	private MyPageDaoImpl() {
+		smc = SqlMapUtil.getSqlMapClient();
+	}
+
+	public static MyPageDaoImpl getInstance() {
+		if(dao == null) dao = new MyPageDaoImpl();
+		return dao;
+	}
+	
+	@Override
+	public MemberVO getMyInfo(MemberVO vo) throws SQLException {
+		return (MemberVO) smc.queryForObject("mypage.getMyInfo", vo);
+	}
+
+	@Override
+	public int updateMyInfo(MemberVO vo) throws SQLException {
+		return smc.update("mypage.updateMyInfo", vo);
+	}
+
+	@Override
+	public int deleteMember(String memId) throws SQLException {
+		return smc.delete("mypage.deleteMember", memId);
+	}
+
+//	@Override
+//	public List<Map<String, Object>> getMyRecipe(String memId) throws SQLException {
+//		return smc.queryForList("mypage.getMyRecipe", memId);
+//	}
+
+	@Override
+	public int getCountReply(int post_code) throws SQLException {
+		return (int) smc.queryForObject("mypage.getCountReply", post_code);
+	}
+
+	@Override
+	public List<PostVO> getMyRecipe(String memId) throws SQLException {
+		return smc.queryForList("mypage.getMyRecipe", memId);
+	}
+	
+	@Override
+	public String getPostAtt(int post_code) throws SQLException {
+		return (String) smc.queryForObject("mypage.getPostAtt", post_code);
+	}
+
+	@Override
+	public List<PostrplVO> getMyReply(String memId) throws SQLException {
+		return smc.queryForList("mypage.getMyReply", memId);
+	}
+
+	@Override
+	public int deleteMyRecipe(int post_code) throws SQLException {
+		return smc.delete("mypage.deleteMyRecipe", post_code);
+	}
+
+	
+
+	
+}

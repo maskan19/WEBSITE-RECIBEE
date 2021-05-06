@@ -1,0 +1,213 @@
+<%@page import="java.util.Map"%>
+<%@page import="vo.PostVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+ 
+    <style>          
+        .mypage-set-bg{
+            height: 190px;
+        }
+        
+        .mypage__sidebar{
+            padding: 0px;
+            
+        }
+        
+        .menu{
+            width: 700px;
+        }
+        .spad{
+            padding-top: 40px;
+        }
+        .myPage_board{
+            display: flex;
+		    float: left;
+		    padding: 0;
+		    flex-wrap: wrap;
+		    flex: 0 0 79%;
+		    max-width: 77%;
+        }
+        
+        .mypage__sidebar__parent{
+        	flex:0 0 23%;
+        }
+        
+        .mypage_recipe{
+        	flex: 0 0 33%;
+        }
+       .product__pagination, .blog__pagination {
+		    padding-top: 10px;
+		    flex: inherit;
+		    text-align: center;
+		}
+		.board p{
+			font-size: 0.8em;
+	    	margin: 0 0 3px;
+	    	color:#BDBDBD;
+		}
+    </style>
+</head>
+
+<body>
+  	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+<!-- Hero Section Begin -->
+	<section class="hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="hero__search">
+						<div class="div__top__layer">
+							<div class="hero__search__form">
+								<form action="#">
+									<div class="hero__search__categories">
+										All Categories <span class="arrow_carrot-down"></span>
+										<ul class="header__menu__dropdown">
+											<li>Recipe</li>
+											<li>Board1</li>
+											<li>Shop</li>
+										</ul>
+									</div>
+									<input type="text" placeholder="What do yo u need?">
+									<button type="submit" class="site-btn">SEARCH</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Hero Section End -->
+
+    <!-- Blog Details Hero Begin -->
+    <section class="blog-details-hero set-bg mypage-set-bg" data-setbg="img/blog/details/details-hero.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="blog__details__hero__text">
+                        <h2>My RECIbee</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Details Hero End -->
+
+    <!-- Blog Details Section Begin -->
+    <section class="blog-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-5 order-md-1 order-2 mypage__sidebar__parent">
+                    <div class="blog__sidebar mypage__sidebar">
+                        <div class="blog__sidebar__item">
+                            <h4>My Page</h4>
+                            <ul>
+                                <li><a href="<%=request.getContextPath()%>/jsp/MyPage.do">회원 정보</a></li>
+                                <li><a href="./likedRecipe.jsp">찜한 레시피</a></li>
+                                <li><a href="<%=request.getContextPath()%>/jsp/MyRecipe.do">나의 레시피</a></li>
+                                <li><a href="./myReply.jsp">나의 댓글</a></li>
+                                <li><a href="./myOrder.jsp">주문 내역</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 order-md-1 order-1 myPage_board">
+                <%List<PostVO> list = null; 
+                  List<Map<String, Object>> ect = null;
+                
+                	if(request.getAttribute("myRecipe")!=null){
+                		list = (List<PostVO>)request.getAttribute("myRecipe");
+                	}
+                	
+                	if((List<Map<String, Object>>) request.getAttribute("ect") != null){
+                		ect = (List<Map<String, Object>>) request.getAttribute("ect");
+                	}
+                	if(list==null){
+                	
+                %>
+                	<p>등록된 게시글이 없습니다.</p>
+                <%}else{
+                	for(PostVO li : list){
+						
+                		String board_code = "";
+                		switch(li.getBoard_code()){
+                		case 1:
+                			board_code = "FAQ";
+                			break;
+                		case 2:
+                			board_code = "웃긴 요리 게시판";
+                			break;
+                		case 3:
+                			board_code ="공지사항";
+                			break;
+                		default:
+                			board_code ="";
+                			break;
+                		}
+                %>
+                    <div class="col-lg-6 col-md-6 col-sm-6 mypage_recipe">
+                            <div class="blog__item">
+                    	<div class= "board"><p><%=board_code %></p></div>
+                               <%
+                               	  for(Map<String, Object> map : ect){
+									if(li.getPost_code() == (Integer)map.get("POST_CODE")){ 
+										if(map.get("POST_FILE") != null && !map.get("POST_FILE").equals("")){
+                               %>
+                                <div class="blog__item__pic">
+                                    <img src="pic/<%=map.get("POST_FILE")%>" alt="대체이미지">
+                                </div>
+                                <%}} }%>
+                                <div class="blog__item__text">
+                                    <ul>
+                                        <li><i class="fa fa-calendar-o"></i> <%=li.getPost_date() %></li>
+                                        <% for(Map<String, Object> map : ect){
+        									if(li.getPost_code() == (Integer)map.get("POST_CODE")){  %>
+                                        <li><i class="fa fa-comment-o"></i> <%=map.get("REPLY") %></li>
+                                        <%}} %>
+                                    </ul>
+                                    <h5><a href="#"><%=li.getPost_title() %></a></h5>
+                                    <p><%=li.getPost_cont() %></p>
+                                    <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                      </div>      
+                  <%}} %>
+                     <hr>
+                    <div class="product__pagination">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Details Section End -->
+
+    <!-- Related Blog Section Begin -->
+    <!-- Related Blog Section End -->
+
+   <!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+
+</body>
+
+</html>

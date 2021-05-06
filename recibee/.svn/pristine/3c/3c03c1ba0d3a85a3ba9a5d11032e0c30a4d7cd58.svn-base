@@ -1,0 +1,173 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+            
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+            
+            
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+ 
+    <style>          
+        .mypage-set-bg{
+            height: 190px;
+        }
+        
+        .mypage__sidebar{
+            padding: 0px;
+        }
+        
+        .menu{
+            width: 700px;
+        }
+        .spad{
+            padding-top: 40px;
+        }
+        .myPage_board{
+            display: flex;
+            float: left;
+            padding: 0;
+        }
+        
+        .chkpass-btn{
+        	padding: 5px 15px;
+        }
+        .chkpass {
+        	margin: 100px 0px 0 35px;
+		}
+    </style>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+<!-- Hero Section Begin -->
+	<section class="hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="hero__search">
+						<div class="div__top__layer">
+							<div class="hero__search__form">
+								<form action="#">
+									<div class="hero__search__categories">
+										All Categories <span class="arrow_carrot-down"></span>
+										<ul class="header__menu__dropdown">
+											<li>Recipe</li>
+											<li>Board1</li>
+											<li>Shop</li>
+										</ul>
+									</div>
+									<input type="text" placeholder="What do yo u need?">
+									<button type="submit" class="site-btn">SEARCH</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Hero Section End -->
+    
+
+    <!-- Blog Details Hero Begin -->
+    <section class="blog-details-hero set-bg" data-setbg="img/blog/details/details-hero.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="blog__details__hero__text">
+                        <h2>The Moment You Need To Remove Garlic From The Menu</h2>
+                        <ul>
+                            <li>By Michael Scofield</li>
+                            <li>January 14, 2019</li>
+                            <li>8 Comments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Details Hero End -->
+
+    <!-- Blog Details Section Begin -->
+    <section class="blog-details spad">
+        <div class="container">
+            
+
+                <div class="col-lg-8 col-md-7 order-md-1 order-1">
+                    <div class="blog__details__text">
+                        <img src="img/blog/details/details-pic.jpg" alt="" width="500">
+                        
+                        <h3>웃긴요리의 내용 </h3>
+                        <p>가나다라마바사</p>
+                        
+                        <h6>사용자 닉네임</h6>
+                        <span>사용자 이메일</span>
+                        <br><br><br><br><br>
+                        
+                        <hr>
+                        
+                        
+                        <textarea class="txt" name="content" rows="10" cols="50"></textarea>
+                        <button class="btn btn-primary" id="wsend" type="button">등록</button>       
+                    </div>
+
+                    </div>
+                
+            </div>
+            
+            
+            <iframe id = "texter">
+            <div id="summernote"></div> 
+            
+            </iframe>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        
+    </section>
+    <!-- Blog Details Section End -->
+
+    <!-- Related Blog Section Begin -->
+   
+    <!-- Related Blog Section End -->
+
+    <!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+		  $('#summernote').summernote();
+		});
+	$('#texter').contents().find('.note-editable').html();
+	</script>
+
+</body>
+
+</html>

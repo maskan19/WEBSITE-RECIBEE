@@ -1,0 +1,30 @@
+package dishreply.dao;
+
+import java.sql.SQLException;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.DishreplyVO;
+
+public class DishreplyDaoImpl implements IDishreplyDao {
+	private SqlMapClient smc;
+	private static DishreplyDaoImpl dao;
+	
+	private DishreplyDaoImpl() {
+		smc = SqlMapUtil.getSqlMapClient();
+	}
+	
+	public static DishreplyDaoImpl getInstance() {
+		if(dao==null) dao= new DishreplyDaoImpl();
+		return dao;
+	}
+
+
+
+	@Override
+	public void insertdishreply(DishreplyVO vo) throws SQLException {
+		
+			smc.insert("dishreply.insertDishreply", vo);
+	}
+}

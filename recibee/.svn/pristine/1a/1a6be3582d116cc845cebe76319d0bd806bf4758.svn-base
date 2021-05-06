@@ -1,0 +1,321 @@
+/**
+ * join_form checker
+ * 
+ * @author F1
+ */
+
+$(function() {
+
+	// 정규식
+	// id체크
+	$('#mem_id').on('keyup', function() {
+
+		const alpha = /^[a-z]$/
+		let idvalue = $('#mem_id').val().trim();
+		const regid = /^[a-z][a-zA-Z0-9]{4,20}$/
+
+		// 비교 test() : true 또는 false를 리턴
+		if (regid.test(idvalue)) {
+			okpro(this);
+		} else if(alpha.test(idvalue)) {
+			nopro(this, "아이디는 4~11자 입니다.")
+		} else {
+			nopro(this, "소문자로 시작하세요.")
+		}
+	})
+
+	// 이름
+	$("#name").on("keyup", function() {
+		namevalue = $("#name").val().trim();
+
+		if (namevalue.length < 2 || namevalue.length > 5) {
+			nopro(this, "2~5사이입니다.");
+			return false;
+		}
+
+		regname = /^[가-힣]{2,5}$/
+
+		if (regname.test(namevalue)) {
+			okpro(this);
+		} else {
+			nopro(this, "올바른 형식이 아닙니다.")
+		}
+	})
+
+	// 전화번호
+	$('#hp').on("keyup", function() {
+		hpvalue = $(this).val().trim();
+
+		reghp = /^\d{3}-\d{4}-\d{4}$/
+
+		if (reghp.test(hpvalue)) {
+			okpro(this);
+		} else {
+			nopro(this, "올바른 형식이 아닙니다.")
+		}
+	})
+
+	// 이메일
+	$('#email').on("keyup", function() {
+		emailvalue = $(this).val().trim();
+
+		regmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z]+){1,2}$/;
+
+		if (regemail.test(emailvalue)) {
+			okpro(this);
+		} else {
+			nopro(this, "올바른 형식이 아닙니다.")
+		}
+	})
+
+	// 비밀번호
+	$("#pwd")
+			.on(
+					"keyup",
+					function() {
+						pwdvalue = $(this).val().trim();
+
+						if (pwdvalue.trim().length < 8
+								|| pwdvalue.trim().length > 12) {
+							nopro(this, "8~12사이입니다.");
+							return false;
+						}
+
+						regpwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()]).{8,12}$/;
+
+						if (regpwd.test(pwdvalue)) {
+							okpro(this);
+						} else {
+							nopro(this, "올바른 형식이 아닙니다.")
+						}
+					})
+
+	$("#pwd2").on("keyup", function() {
+		pwvalue = $(this).val().trim();
+
+		if (pwdvalue == pwvalue) {
+			okpro(this);
+		} else {
+			nopro(this, "일치하지 않습니다.");
+		}
+	})
+
+	$("#bir").on("change", function() {
+
+		birvalue = $(this).val();
+		birth = new Date(birvalue);
+
+		today = new Date();
+
+		toyear = today.getFullYear(); // 2021년
+
+		biryear = birth.getFullYear(); // 선택한 년도
+
+		year = toyear - biryear
+
+		if (year >= 10) {
+			okpro(this);
+		} else {
+			nopro(this, "10살이상 가능합니다 돌아가세요.")
+		}
+
+	})
+
+	$("#gender").on("change", function() {
+		gendervalue = $(this).val();
+
+		if (gendervalue != "") {
+			okpro(this);
+		} else {
+			nopro(this, "성별을 선택하세요");
+		}
+
+	})
+
+	// /////////////////////////////////////////////////////////////////////
+
+	// id중복검사
+	$('#idbtn').on('click', function() {
+		idcheck();
+	})
+
+	// 우편번호 검색 - window
+	$('#wzipbtn').on(
+			'click',
+			function() {
+				// 새로운 창열기
+				window.open("zipsearch.html", "_blank", "우편번호 찾기",
+						"width=500 height=400");
+			})
+
+	// 우편번호 modal에서 동 입력후 확인버튼 클릭 이벤트
+	$('#dongbtn').on('click', function() {
+		dongsearch();
+	})
+
+	// modal결과에서 원하는 행(주소)를 선택했을때 이벤트
+	// 동적으로 새롭게 생성된 요소 - delegate
+	$('#result1').on('click', '.ziptr', function() {
+		zipselect(this);
+	})
+
+	$('#ff').on('submit', function() {
+		fsubmit();
+	})
+
+})
+
+/**
+ * 
+ */
+
+function okpro(vinput) {
+	let msg = $(vinput).parents(".checkout__input").find('.checkera');
+
+	$(msg).empty();
+	// 올바른 형식이 아닙니다 영역 지우기
+	$(vinput).parents(".checkout__input").find('.checker').html("");
+
+	/*$('<img>', {
+		'src' : '../images/check.png',
+		'width' : '20px',
+		'height' : '20px'
+
+	}).appendTo(msg);*/
+
+}
+
+function nopro(vinput, text) {
+	$(vinput).parents(".checkout__input").find('.checker').html(text)
+			.css('color', 'red');
+
+	$(vinput).parents(".checkout__input").find('.checker').empty();
+}
+
+function idcheck() {
+	idvalue = $('#id').val().trim();
+
+	if (idvalue.length < 1) {
+		alert("id입력 하세요");
+		return false;
+	}
+
+	// ///////ajax의 단축메뉴. 아래와 동일 $.post( url, data, success, dataType);
+
+	$.post("/member/ID.do", {
+		"id" : idvalue
+	}, function(res) {
+		$('#idspan').html(res.sw).css('color', 'red');
+	}, "json");
+
+	/*
+	 * $.ajax({ url : "/member/ID.do", type : "post", data : { "id" : idvalue },
+	 * success : function(res) { $('#idspan').html(res.sw).css('color', 'red'); },
+	 * error : function(xhr) { alert("상태 : " + xhr.status); }, dataType : "json"
+	 * });
+	 */
+}
+// /////////////////////////////////////////////////////////////////////////////////////////
+
+// 우편번호 modal에서 동 입력후 확인버튼 클릭 이벤트
+function dongsearch() {
+	// 입력한 값 가져오기
+	dongvalue = $('#dong').val().trim();
+
+	// 서버로 전송(요청)
+	$.ajax({
+		url : '/member/DongSearch.do',
+		data : {
+			"dong" : dongvalue
+		},
+		type : 'post',
+		success : function(res) {
+
+			code = "<table border='1' class='table table-bordered'>";
+			code += "<tr><td>우편번호</td>";
+			code += "<td>주소</td>";
+			code += "<td>번지</td></tr>";
+
+			$.each(res, function(i, v) {
+				code += "<tr class='ziptr'><td>" + v.code + "</td>";
+				code += "<td>" + v.addr + "</td>";
+				code += "<td>" + v.bunji + "</td></tr>";
+			})
+
+			code += "</table>";
+			$('#result1').html(code);
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+
+	})
+}
+// ///////////////////////////////////////////////////////////////////////
+
+// modal결과에서 원하는 행(주소)를 선택했을때 이벤트
+// 동적으로 새롭게 생성된 요소 - delegate
+function zipselect(tt) {
+	zipcode = $('td:eq(0)', tt).text();
+	addr = $('td:eq(1)', tt).text();
+
+	// 폼출력
+	$('#zip').val(zipcode);
+	$('#add1').val(addr);
+
+	// 모달창 닫기
+	$('#myModal').modal('hide');
+	// 모달창 내용 지우기
+	$('#dong').val("");
+	$('#result1').empty();
+}
+// ///////////////////////////////////////////////////////////////////////
+
+// 제출버튼 클릭 이벤트
+// $('button[type=submit]')
+// $('button:submit').on('click', function() {})
+
+function fsubmit() {
+	// submit의 고유 기능을 방지 한다.
+	event.preventDefault();
+
+	// 입력한 모든 값(9개)를 가져온다 - val()
+	/*
+	 * idvalue = $('#id').val().trim(); namevalue = $('#name').val().trim();
+	 * passvalue = $('#pwd').val().trim(); mailvalue = $('#email').val().trim();
+	 * birvalue = $('#bir').val().trim(); zipvalue = $('#zip').val().trim();
+	 * add1value = $('#add1').val().trim(); add2value = $('#add2').val().trim();
+	 * hpvalue = $('#hp').val().trim();
+	 * 
+	 * datas = { "mem_id" : idvalue, "mem_name" : namevalue, "mem_pass":
+	 * passvalue, "mem_mail" : mailvalue, "mem_bir" : birvalue, "mem_zip" :
+	 * zipvalue, "mem_add1" : add1value, "mem_add2" : add2value, "mem_hp" :
+	 * hpvalue } console.log(datas)
+	 * 
+	 * datas = "mem_id=" + idvalue + "&mem_name=" + namevalue + "&mem_pass=" +
+	 * passvalue + "&mem_mail=" + mailvalue + "&mem_bir=" + birvalue +
+	 * "&mem_zip=" + zipvalue + "&mem_add1=" + add1value + "&mem_add2=" +
+	 * add2value + "&mem_hp=" + hpvalue console.log(datas);
+	 */
+
+	/*
+	 * console.log($('#ff').serialize()) console.log($('#ff').serializeArray())
+	 * console.log($('#ff').serializeJSON())
+	 */
+
+	idvalue = $('#subspan').val().trim();
+
+	$.ajax({
+		url : "/member/Insert.do",
+		method : 'post',
+		data : $('#ff').serializeJSON(),
+		success : function(res) {
+			$('#subspan').html(res.inok).css('color', 'red');
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="prod">
+	<typeAlias alias="ProdVo" type="vo.ProdVO"/>
+	<typeAlias alias="Prod_AttVo" type="vo.Prod_AttVO"/>
+	
+	<insert id="ProdInsert" parameterClass="ProdVo">
+		insert into prod (prod_code, prod_name, prod_price, lprod_code ,prod_cont) 
+		values (prod_seq.nextVal, #prod_name#, #prod_price#, #lprod_code#, #prod_cont#)
+		<selectKey keyProperty="prod_code" resultClass="int" type="post">
+			select prod_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="ProdAttInsert" parameterClass="Prod_AttVo">
+		insert into prod_att (prod_file, prod_code) values (#prod_file#, #prod_code#)
+	</insert>
+	
+	<select id="listProd" resultClass="java.util.HashMap">
+		select a.*, b.prod_file from prod a,prod_att b where a.prod_code=b.prod_code order by a.prod_price
+	</select>
+	
+	<select id="listProdDesc" resultClass="java.util.HashMap">
+		select a.*, b.prod_file from prod a,prod_att b where a.prod_code=b.prod_code order by a.prod_price desc
+	</select>
+	
+	
+	<select id="searchListProd" parameterClass="String" resultClass="java.util.HashMap">
+		select a.*, b.prod_file from prod a,prod_att b where a.prod_code=b.prod_code and a.prod_name like '%$search$%' order by a.prod_price
+	</select>
+	
+	<select id="detailProd" parameterClass="int" resultClass="java.util.HashMap">
+		select a.*, b.prod_file from prod a,prod_att b where a.prod_code=b.prod_code and a.prod_code = #prod_code#
+	</select>
+</sqlMap>

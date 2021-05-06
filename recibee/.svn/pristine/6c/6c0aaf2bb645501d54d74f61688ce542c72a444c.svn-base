@@ -1,0 +1,12 @@
+package dish.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import vo.DishVO;
+
+public interface IDishDao {
+	public int Count(Map<String, String> map) throws SQLException;
+	
+	public List<DishVO> SelectByPage(Map<String, String> map) throws SQLException;
+}

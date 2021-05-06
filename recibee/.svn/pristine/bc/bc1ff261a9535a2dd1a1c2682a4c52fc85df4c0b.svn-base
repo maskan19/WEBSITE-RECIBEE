@@ -1,0 +1,49 @@
+package dish.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import dish.dao.DishDaoImpl;
+import dish.dao.IDishDao;
+import vo.DishVO;
+
+public class DishServiceImpl implements IDishService {
+	private IDishDao dishDao;
+	private static DishServiceImpl service;
+	
+	private DishServiceImpl() {
+		dishDao = DishDaoImpl.getInstance();
+	}
+	
+	public static DishServiceImpl getInstance() {
+		if(service==null) service = new DishServiceImpl();
+		return service;
+	}
+
+	@Override
+	public int Count(Map<String, String> map) {
+		int count = 0;
+		
+		try {
+			count = dishDao.Count(map);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+
+	@Override
+	public List<DishVO> SelectByPage(Map<String, String> map) {
+		List<DishVO> list = null;
+		
+		try {
+			list = dishDao.SelectByPage(map);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+}

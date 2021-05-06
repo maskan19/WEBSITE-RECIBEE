@@ -1,0 +1,271 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="vo.ProdVO"%>
+<%@page import="vo.LprodVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/shop-grid.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#listOrderBy").on("change",function(){
+		option = $(this).val();
+		if(option=="낮은순"){
+			location.href="<%=request.getContextPath()%>/jsp/ProdList.do?option="+option;
+		}else{
+			location.href="<%=request.getContextPath()%>/jsp/ProdList.do?option="+option;
+		}
+	})
+});
+</script>
+<style type="text/css">
+.price-range-wrap .range-slider .price-input:after {
+  left: 57px;
+}
+.product{
+	padding-top: 20px;
+}
+.hero_bottom{
+	padding-top: 20px;
+}
+</style>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+	<!-- Humberger Header SectionEnd -->
+	
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>RECIbee Shop</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <span>Shop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+<!-- Hero Section Begin -->
+	<section class="hero hero_bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="hero__search">
+						<div class="div__top__layer">
+							<div class="hero__search__form">
+								<form action="">
+									<input type="text" name="search" placeholder="What do yo u need?">
+									<button type="submit" class="site-btn">SEARCH</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Hero Section End -->
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <h4>분류</h4>
+                            <div class="filter__sort">
+                                    <select id="lprod">
+                                    <%
+                                    	List<LprodVO> list = (List<LprodVO>)request.getAttribute("list");
+                                    	for(LprodVO vo : list){
+                                    %>
+                                        <option value="<%=vo.getLprod_code() %>"><%=vo.getLprod_name() %></option>
+                                    <%}%>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="sidebar__item">
+                            <h4>가격 설정</h4>
+                            <div class="price-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                    data-min="1000" data-max="10000">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                </div>
+                                <div class="range-slider">
+                                    <div class="price-input">
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>최근 본 상품</h4>
+                                <div class="latest-product__slider owl-carousel">
+									<%
+									List<HashMap> prodList = (List<HashMap>) request.getAttribute("prodList");
+										for (int i = 0; i < 9; i++) {
+											
+											if(i%3==0){
+												%>
+													<div class="latest-prdouct__slider__item">
+												<%
+											}
+									%>
+									<a href="#" class="latest-product__item">
+										<div class="latest-product__item__pic">
+											<img src="pic/<%=prodList.get(i).get("PROD_FILE")%>" alt="">
+											<h6><%=prodList.get(i).get("PROD_NAME")%></h6>
+											<span style="color:black"><%=prodList.get(i).get("PROD_PRICE")%>원</span>
+										</div>
+										<div class="latest-product__item__text">
+										</div>
+									</a>
+
+									<%
+									if(i%3==2){
+										%>
+										</div>
+										<%
+									}
+									}
+									%>
+
+
+									<!-- <div class="latest-prdouct__slider__item">
+                                    
+                                     
+                                        <a href="#" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="img/latest-product/lp-1.jpg" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6>Crab Pool Security</h6>
+                                                <span>$30.00</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="img/latest-product/lp-2.jpg" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6>Crab Pool Security</h6>
+                                                <span>$30.00</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="img/latest-product/lp-3.jpg" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6>Crab Pool Security</h6>
+                                                <span>$30.00</span>
+                                            </div>
+                                        </a>
+                                    </div> -->
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7">
+                   
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                    <select id="listOrderBy">
+                                        <option value="낮은순">가격 낮은순</option>
+                                        <option value="높은순">가격 높은순</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>16</span>검색된 상품</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                     <% /* List<HashMap> prodList = (List<HashMap>) request.getAttribute("prodList"); */ 
+                       for(int i = 0; i < prodList.size(); i++){
+                    	  	
+                   	 %>
+                   	
+                            
+                    	<div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                 <div class="product__item__pic set-bg">
+                                 <a href="#"><div class="product__item__pic set-bg" data-setbg="pic/<%=prodList.get(i).get("PROD_FILE") %>"></div></a>
+                                    <ul class="product__item__pic__hover">
+                                        <li><a href="#"><i class="fa fa-shopping-cart gg"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="#"><%=prodList.get(i).get("PROD_NAME") %></a></h6>
+                                    <h5><%=prodList.get(i).get("PROD_PRICE") %> 원</h5>
+                                </div>
+                            </div>
+                        </div>
+                                
+                    
+                  	  <%            			
+                   	    }
+                  	 	%>
+                   
+                    </div>
+                    <div class="product__pagination">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+   
+	<!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+
+</body>
+
+</html>

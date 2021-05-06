@@ -1,0 +1,68 @@
+package member.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import util.SqlMapUtil;
+import vo.MemberVO;
+
+public class MemberDaoImpl implements IMemberDao {
+
+	private SqlMapClient smc;
+	private static MemberDaoImpl singleDao;
+
+	private MemberDaoImpl() {
+		smc = SqlMapUtil.getSqlMapClient();
+	}
+
+	public static MemberDaoImpl getInstance() {
+		if (singleDao == null)
+			singleDao = new MemberDaoImpl();
+		return singleDao;
+	}
+	
+	@Override
+	public int insertMember(MemberVO memVo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteMember(String memId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMember(MemberVO memVo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<MemberVO> getAllMember() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getMemberCount(String memId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updatePartMember(Map<String, String> paramMap) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public MemberVO getMember(String memId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

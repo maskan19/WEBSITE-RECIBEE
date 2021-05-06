@@ -1,0 +1,43 @@
+package admin.action;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import admin.service.IProductInsertService;
+import admin.service.ProductInsertServiceImpl;
+import vo.LprodVO;
+import vo.ProdVO;
+import vo.Prod_AttVO;
+import web.IAction;
+
+public class ProdInsertAction implements IAction {
+
+	@Override
+	public boolean isRedirect() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		String prodname = request.getParameter("prod_name");
+		String lprod = request.getParameter("lprod_code");
+		int prodprice = Integer.parseInt(request.getParameter("prod_price"));
+		String prodcont = request.getParameter("prod_cont");
+		
+		
+		ProdVO prodVo = new ProdVO();
+		Prod_AttVO attVo = new Prod_AttVO(); 
+		
+		
+		
+		return null;
+	}
+
+}

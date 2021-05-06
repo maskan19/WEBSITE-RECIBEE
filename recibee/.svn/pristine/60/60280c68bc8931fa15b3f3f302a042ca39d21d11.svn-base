@@ -1,0 +1,364 @@
+<%@page import="vo.RecipeVO"%>
+<%@page import="vo.IngredientVO"%>
+<%@page import="java.util.List"%>
+<%@page import="vo.DishVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<!-- Meta Font Css Styles -->
+<jsp:include page="../common/csslink.jsp"></jsp:include>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+.recipehome{
+	font-size : 150px;
+}
+.manualimg{
+	width: 300px;
+	height: 300px;
+}
+.manualcont{
+	font-size: 1.2em;
+	color: black;
+}
+.ingredient{
+	font-size: 1.1em;
+}
+.manualnum{
+	background : orange;
+	color : white;
+	border-radius: 100px 100px 100px 100px;
+	width : 3%;
+	height: 5%;
+	text-align : center;
+	font-size: 1.1em;
+	font-weight: b
+}
+.recipe__details__text .heart-icon {
+  display: inline-block;
+  font-size: 1rem;
+  color: #6f6f6f;
+  padding: 13px 16px 13px;
+  background: #f5f5f5;
+}
+.icon_heart_alt {
+  font-family: "ElegantIcons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+.heart-icon{
+	width : 50px;
+	height: 50px;
+}
+</style>
+
+<script>
+ $(function(){
+	 $(".heart-icon").click(function(){
+		dishId = $(this).parents(".recipe__details__text").find("h3").attr("idx");
+		$(".heart_alt").toggle();
+		console.log($(this).parents(".recipe__details__text").find(".heart_alt").attr("cont"));
+		//$.ajax({ 
+		//	url : "/jsp/InsertLike.do",
+		//	data : {"dish_code" : dishId},
+		//	method : "get",
+		//	dataType : "json",
+		//	success : function(res){
+		//		$(this).parents(".recipe__details__text").find(".heart_alt").attr("src", "pic/icon_heart.png");
+		//	},
+		//	error : function(xhr){
+		//		alert("상태 : " + xhr.status);
+		//	}
+		//})
+	 })
+ })
+</script>
+</head>
+<body>
+<%
+	DishVO dishvo = (DishVO)request.getAttribute("DishVo");
+	List<IngredientVO> ingrelist = (List<IngredientVO>)request.getAttribute("Ingredientlist");
+	List<RecipeVO> MuaList = (List<RecipeVO>)request.getAttribute("ManualList");
+	int dishId = (Integer) request.getAttribute("DishId");
+	int count = (Integer) request.getAttribute("count");
+%>
+   <!-- Page Preloder -->
+   <div id="preloder">
+      <div class="loader"></div>
+   </div>
+
+   <!-- Humberger Header Section Begin -->
+	<jsp:include page="../common/humberger_header.jsp"></jsp:include>
+   <!-- Humberger Header SectionEnd -->
+
+   <!-- Hero Section Begin -->
+   <section class="hero">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-12">
+               <div class="hero__search">
+                  <div class="div__top__layer">
+                     <div class="hero__search__form">
+                        <form action="#">
+                           <div class="hero__search__categories">
+                              All Categories
+                              <span class="arrow_carrot-down"></span>
+                              <ul class="header__menu__dropdown">
+                                 <li>Recipe</li>
+                                 <li>Board1</li>
+                                 <li>Shop</li>
+                              </ul>
+                           </div>
+                           <input type="text" placeholder="What do yo u need?">
+                           <button type="submit" class="site-btn">SEARCH</button>
+                     </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!-- Hero Section End -->
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2><%=dishvo.getDish_name() %> DETAIL</h2>
+                        <div class="breadcrumb__option">
+                           	<span class="glyphicon glyphicon-home"></span>
+                            <a href="<%=request.getContextPath()%>/jsp/RecipeMain.do">
+                            <img alt="" src="pic/icon_house.png" width="20px" height="20px">RecipeHome
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="recipe-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="recipe__details__pic">
+                        <div class="recipe__details__pic__item">
+                            <img class="recipe__details__pic__item--large"
+                                src="<%=dishvo.getDish_photo() %>" alt="">
+						</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="recipe__details__text">
+                        <h3 idx="<%=dishvo.getDish_code()%>"><%=dishvo.getDish_name() %></h3>
+                        <div class="primary-btn">조회수 : <%=dishvo.getDish_hit()+1%></div>
+
+                        <button type="button" class="heart-icon">
+                        	<img class="heart_alt" src="pic/icon_heart.png"/>
+                        	<img class="heart_alt" src="pic/icon_heart_alt.png" style="display:none"/>
+                        </button>
+
+                        <button type="button" class="heart-icon">
+                        <img class="heart_alt" src="pic/icon_heart.png"/>
+                        <img class="heart_alt" src="pic/icon_heart_alt.png" style="display:none"/>
+                        </button>
+
+  						<p>작성자 아이디 : <%=dishvo.getMem_id() %></p>
+
+                        <p>작성자아이디 : <%=dishvo.getMem_id() %></p>
+ 						<p>작성자 아이디 : <%=dishvo.getMem_id() %></p>
+                        <ul>
+                        	<li><h4>재료</h4></li><br>
+                        	<li><span class="ingredient">
+                        	<%
+                        		for(int i=0; i<ingrelist.size(); i++){
+                        			IngredientVO vo = ingrelist.get(i);
+                        			if(vo.getIngredient_name()!=null){
+                        	%>
+                        			<%=vo.getIngredient_name()+", "%>
+                        	<%
+                        			}
+                        		}
+                        	%>
+                            </span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="recipe__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Manual</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                    aria-selected="false">Reviews <span>(1)</span></a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                    aria-selected="false">comment <span></span></a>
+                            </li>
+                            
+                            
+                            
+                            
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="recipe__details__tab__desc">
+                                    <h4>메뉴얼</h4>
+                                    <%
+                                    	for(int i=0; i<MuaList.size(); i++){
+                                    		RecipeVO rcpvo = MuaList.get(i);
+                                    %>
+                                    	<div class="manualnum"><%=rcpvo.getRcp_num() %></div>
+                                    <% if(rcpvo.getRcp_att()!=null){ %>
+                                    	<img class="manualimg" alt="메뉴얼<%=i %>" src="<%=rcpvo.getRcp_att()%>"/>
+                                    <%	} %>
+                                    	<p class="manualcont"><%=rcpvo.getRcp_manual() %></p>
+                                    <%	} %>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="recipe__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                        Proin eget tortor risus.</p>
+                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                </div>
+                            </div>
+                            
+                              <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="recipe__details__tab__desc">
+                                    <h6>댓글</h6>
+                                    
+                                   
+                                    <p><textarea row="30" cols="60" type="text" name="cont2"></textarea></p>
+                                    <input type="button" class="Abutton " value="등록"> <br> 
+                                  
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+    <!-- Related Product Section Begin -->  
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>댓글</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="recipe__item">
+                        <div class="recipe__item__pic set-bg" data-setbg="img/product/product-1.jpg">
+                            <ul class="recipe__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="recipe__item__text">
+                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h5>$30.00</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="recipe__item">
+                        <div class="recipe__item__pic set-bg" data-setbg="img/product/product-2.jpg">
+                            <ul class="recipe__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="recipe__item__text">
+                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h5>$30.00</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="recipe__item">
+                        <div class="recipe__item__pic set-bg" data-setbg="img/product/product-3.jpg">
+                            <ul class="recipe__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="recipe__item__text">
+                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h5>$30.00</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="recipe__item">
+                        <div class="recipe__item__pic set-bg" data-setbg="img/product/product-7.jpg">
+                            <ul class="recipe__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="recipe__item__text">
+                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h5>$30.00</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Related Product Section End -->
+
+	 <!-- Footer Section Begin -->
+	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<jsp:include page="../common/jslink.jsp"></jsp:include>
+</body>
+
+</html>

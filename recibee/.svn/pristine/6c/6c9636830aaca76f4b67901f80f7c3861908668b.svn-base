@@ -1,0 +1,16 @@
+package myPage.dao;
+
+import java.sql.SQLException;
+
+import vo.MemberVO;
+
+public interface IMyPageDao {
+	// 내 회원 정보 가져오는 메서드
+	public MemberVO getMyInfo(MemberVO vo) throws SQLException;
+	
+	// 회원 정보 수정하는 메서드
+	public int updateMyInfo(MemberVO vo) throws SQLException;
+	
+	// 회원 정보 탈퇴하는 메서드
+	public int deleteMember(String memId) throws SQLException;
+}

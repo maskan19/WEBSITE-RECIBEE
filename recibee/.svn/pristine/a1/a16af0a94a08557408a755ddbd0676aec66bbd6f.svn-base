@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="post">
+
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<typeAlias alias="replyVo" type="vo.PostrplVO" />
+	<typeAlias alias="postAttVo" type="vo.PostAttVO" />
+	
+	
+	<select id="getListFaqPost" resultClass="postVo">
+		select * from post where board_code = 1 order by post_code
+		
+	</select>
+	
+	<update id="updatePost" parameterClass="postVo">
+		update post set post_title = #post_title#,
+					   post_cont = #post_cont#
+					 where post_code = #post_code#
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<select id="getPostlist" resultClass="postVo">
+		select * from post order by post_date desc
+	</select>
+
+	<select id="getPostAtt" parameterClass="Integer"
+		resultClass="postAttVo">
+		select * from post_att where post_code=(select post_code
+		from (select post.*, rownum rnum from (select * from post order by
+		post_code desc) post where board_code=2) where rnum=#data#)
+	</select>
+
+	<select id="getPostRpl" parameterClass="Integer"
+		resultClass="replyVo">
+		select * from postrpl where post_code=(select post_code
+		from (select post.*, rownum rnum from (select * from post order by
+		post_code desc) post where board_code=2) where rnum=#data#)
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="post">
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<select id="getListFaqPost" resultClass="postVo">
+		select * from post 
+	</select>
+	
+	<update id="updatePost" parameterClass="postVo">
+		update post set post_title = #post_title#,
+					   post_cont = #post_cont#
+					 where post_code = #post_code#
+	</update>
+</sqlMap>

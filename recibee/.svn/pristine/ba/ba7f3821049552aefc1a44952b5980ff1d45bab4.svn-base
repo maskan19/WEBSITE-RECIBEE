@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="mypage">
+	<typeAlias alias="memVo" type="vo.MemberVO" />
+	<typeAlias alias="postVo" type="vo.PostVO" />
+	<typeAlias alias="post_attVo" type="vo.PostAttVO"/>
+	<typeAlias alias="postrplVo" type="vo.PostrplVO"/>
+	<typeAlias alias="dishVo" type="vo.DishVO"/>
+	
+	<select id="getMyInfo" parameterClass="memVo" resultClass="memVo">
+		select * from member where mem_id = #mem_id# and mem_pass = #mem_pass#
+	</select>
+	
+	<update id="updateMyInfo" parameterClass="memVo">
+		update member set mem_pass = #mem_pass#,
+						  mem_ali = #mem_ali#,
+						  mem_tel = #mem_tel#
+					 where mem_id = #mem_id#
+	</update>
+	
+	<update id="deleteMember" parameterClass="string">
+		update member set mem_dismember = 0
+					where mem_id = #data#
+	</update>
+	
+	<select id="getMyPost" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select d.*
+			from (select rownum as rn ,c.*
+			from (select a.*, b.post_file
+			from post a full outer join post_att b on a.post_code = b.post_code
+			where a.mem_id = #mem_id# and (b.file_num = 1 or b.file_num is null) 
+			order by a.post_date desc) c
+			<![CDATA[
+			where rownum <= #end#) d
+			where d.rn >= #start#
+			]]>
+	</select>
+	
+	<select id="getCountMyPost" parameterClass="string" resultClass="int">
+		select count(*) from post where mem_id = #data#
+	</select>
+	
+<!-- 	<select id="getPostAtt" parameterClass="int" resultClass="string"> -->
+<!-- 		select post_file from post_att where post_code = #data# and rownum=1 -->
+<!-- 	</select> -->
+	
+	<select id="getCountReply" parameterClass="int" resultClass="int">
+		select count(*) from postrpl where post_code = #data#
+	</select>
+	
+<!-- 	<select id="getMyReply" parameterClass="string" resultClass="postrplVo"> -->
+<!-- 		select * from postrpl where mem_id = #data# order by prpl_date desc -->
+<!-- 	</select> -->
+	
+	<delete id="deleteMyPost" parameterClass="int">
+		delete from post where post_code = #data#
+	</delete>
+	
+	<select id="getMyRecipe" parameterClass="map" resultClass="dishVo">
+		select *
+  		  from (select rownum as rn, a.*
+                  from (select *
+		                  from dish
+		                 where mem_id = #mem_id#
+		                 order by dish_date desc) a
+		                 <![CDATA[
+         		  where rownum <= #end#)
+		 where rn >= #start#
+		 ]]>
+	</select>
+	
+	<select id="getCountMyRecipe" parameterClass="string" resultClass="int">
+		select count(*) from dish where mem_id = #data#
+	</select>
+	
+	<!-- 댓글 페이징 처리하여 불러오는 쿼리문 -->
+	<select id="getMyReply" parameterClass="map" resultClass="postrplVo">
+		select *
+		  from (select rownum as rn, a.*
+		          from (select *
+		                  from postrpl
+		                 where mem_id = #mem_id#
+		                 order by prpl_date desc) a
+		                 <![CDATA[
+		         where rownum <= #end#)
+		  where rn >= #start#
+		  ]]>
+	</select>
+	
+	<select id="getCountMyReply" parameterClass="string" resultClass="int">
+		select count(*) from postrpl where mem_id = #data#
+	</select>
+</sqlMap>

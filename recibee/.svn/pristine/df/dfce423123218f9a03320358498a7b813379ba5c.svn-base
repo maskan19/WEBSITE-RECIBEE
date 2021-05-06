@@ -1,0 +1,8 @@
+/jsp/memberInsert.do=member.action.MemberInsertAction
+/jsp/memberList.do=member.action.MemberListAction
+/jsp/Login.do=common.action.LoginPageAction
+/jsp/Index.do=common.action.IndexPageAction
+/jsp/Join.do=member.action.JoinPageAction
+/jsp/CS.do=common.action.CSPageAction
+
+

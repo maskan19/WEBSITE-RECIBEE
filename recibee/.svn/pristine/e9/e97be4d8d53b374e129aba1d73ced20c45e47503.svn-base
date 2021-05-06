@@ -1,0 +1,64 @@
+#/jsp/memberList.do=member.action.MemberListAction
+
+/jsp/Login.do=common.action.LoginPageAction
+/jsp/Index.do=common.action.IndexPageAction
+/jsp/CS.do=common.action.CSPageAction
+/jsp/Shop.do=common.action.ShopPageAction
+/jsp/JoinForm.do=common.action.JoinPageAction
+/jsp/Agreement.do=common.action.AgreementPageAction
+
+
+/jsp/InsertMember.do=member.action.MemberInsertAction
+/jsp/IDDuplicate.do=member.action.IDDuplicateChecker
+/jsp/AliDuplicate.do=member.action.AliDuplicateChecker
+/jsp/Session.do=member.action.GetSessionAction
+/jsp/Logout.do=member.action.DropSessionAction
+/jsp/Posting.do=member.action.PostingPageAction
+
+
+/jsp/Board.do=board.action.BoardPageAction
+/jsp/Post.do=board.action.PostPageAction
+
+
+
+/jsp/ProdList.do=product.action.ProdListAction
+/jsp/ProdInsertForm.do=admin.action.ProdInsertFormAction
+/jsp/ProdDetailDelete.do=admin.action.ProdDeleteAction
+/jsp/ProdCartInsert.do=product.action.ProdCartInsertAction
+/jsp/ProdDetail.do=product.action.ProdDetailAction
+/jsp/ProdSearch.do=product.action.ProdSearchAction
+/jsp/CartList.do=product.action.ProdCartListAction
+/jsp/CartUpdate.do=product.action.ProdCartUpdateAction
+/jsp/ProdUpdateForm.do=admin.action.ProdUpdateFormAction
+/jsp/CheckOut.do=product.action.CheckOutAction
+/jsp/CartProdDelete.do=product.action.CartProdDeleteAction
+/jsp/CheckOutSucces.do=product.action.CheckOutSuccesACtion
+#/---JYR: 이메일 찾기 및 비밀번호 찾기
+/jsp/FindEmail.do=member.action.FindEmailAction
+/jsp/FindEmailResult.do=member.action.FindEmailResultAction
+/jsp/FindPw.do=member.action.FindPwAction
+/jsp/FindPwResult.do=member.action.FindPwResultAction
+
+#/---JYR : 레시피용
+/jsp/RecipeMain.do=dish.action.RecipeSearchWordAction
+/jsp/RecipeDetail.do=dish.action.RecipeDetailAction
+#-현재 불가능한 액션(찜버튼용)
+/jsp/InsertLike.do=dish.action.InsertLikeAction
+/jsp/RecipeRgPossi.do=dish.action.RecipeRgPossiAction
+
+#/ ---KDY------------- myPage용 uri
+/jsp/MyInfo.do=myPage.action.MyInfoAction
+/jsp/MyPage.do=myPage.action.MyPageAction
+/jsp/UpdateMyPage.do=myPage.action.UpdateMyPageAction
+/jsp/DeleteMember.do=myPage.action.DeleteMemberAction
+/jsp/MyPost.do=myPage.action.MyPostAction
+/jsp/MyReply.do=myPage.action.MyReplyAction
+/jsp/DeleteMyPost.do=myPage.action.DeleteMyPostAction
+/jsp/MyRecipe.do=myPage.action.MyRecipeAction
+
+#/ -----------------post용 uri
+/jsp/UpdatePostFAQ.do=post.faq.action.UpdatePostAction
+/jsp/PostFAQ.do=post.faq.action.PostFaqAction
+/jsp/DeletePostFAQ.do=post.faq.action.DeletePostAction
+/jsp/InsertPostFAQ.do=post.faq.action.InsertPostAction
+

@@ -1,0 +1,10 @@
+package myPage.service;
+
+import vo.MemberVO;
+
+public interface IMyPageService {
+	
+	// 내 회원 정보 가져오는 메서드
+	public MemberVO getMyInfo(String memId);
+
+}

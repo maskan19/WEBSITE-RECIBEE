@@ -1,0 +1,89 @@
+package dish.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import dish.dao.DishDaoImpl;
+import dish.dao.IDishDao;
+import vo.DishVO;
+
+public class DishServiceImpl implements IDishService {
+	private IDishDao dishDao;
+	private static DishServiceImpl service;
+	
+	private DishServiceImpl() {
+		dishDao = DishDaoImpl.getInstance();
+	}
+	
+	public static DishServiceImpl getInstance() {
+		if(service==null) service = new DishServiceImpl();
+		return service;
+	}
+
+	@Override
+	public List<DishVO> alldish() {
+		List<DishVO> list = null;
+		
+		try {
+			list = dishDao.alldish();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public int dishtotalCount() {
+		int count = 0;
+		
+		try {
+			count = dishDao.dishtotalCount();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+
+	@Override
+	public List<DishVO> selectByPage(Map<String, Integer> map) {
+		List<DishVO> list = null;
+		
+		try {
+			list = dishDao.selectByPage(map);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public int searchwordcount(String word) {
+		int count = 0;
+		
+		try {
+			count = dishDao.searchwordcount(word);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+
+	@Override
+	public List<DishVO> searchwordByPage(Map<String, String> map) {
+		List<DishVO> list = null;
+		
+		try {
+			list = dishDao.searchwordByPage(map);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+}
